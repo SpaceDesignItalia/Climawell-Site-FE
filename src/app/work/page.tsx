@@ -11,7 +11,7 @@ import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { PageIntro } from '@/components/PageIntro'
 import { Testimonial } from '@/components/Testimonial'
 import logoBrightPath from '@/images/clients/bright-path/logo-dark.svg'
-import logoFamilyFund from '@/images/clients/family-fund/logo-dark.svg'
+import logoAerauliqa from '@/images/clients/aerauliqa/AerauliqaW.png'
 import logoGreenLife from '@/images/clients/green-life/logo-dark.svg'
 import logoHomeWork from '@/images/clients/home-work/logo-dark.svg'
 import logoMailSmirk from '@/images/clients/mail-smirk/logo-dark.svg'
@@ -98,7 +98,7 @@ function CaseStudies({
 
 const clients = [
   ['Phobia', logoPhobia],
-  ['Family Fund', logoFamilyFund],
+  ['Aerauliqa', logoAerauliqa],
   ['Unseal', logoUnseal],
   ['Mail Smirk', logoMailSmirk],
   ['Home Work', logoHomeWork],
