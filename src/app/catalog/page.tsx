@@ -244,15 +244,10 @@ export default function StorePage() {
         <main className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
           <div className="border-b border-gray-200 pb-10 pt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              Vino e prodotti agricoli selezionati
+              Climawell
             </h1>
             <p className="mt-4 text-base text-gray-500">
-              Benvenuto nel nostro negozio online dedicato al mondo del vino e
-              dei prodotti agricoli. Scopri una selezione curata di vini
-              pregiati e prodotti genuini direttamente dalla terra. Scegli tra
-              una vasta gamma di varietà e assapora l'autenticità dei nostri
-              prodotti. Utilizza i filtri per trovare esattamente ciò che cerchi
-              e immergiti nell'esperienza del gusto.
+             Bene
             </p>
           </div>
 

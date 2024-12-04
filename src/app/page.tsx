@@ -69,7 +69,7 @@ function CaseStudies({
   return (
     <>
       <SectionIntro
-        title="Harnessing technology for a brighter future"
+        title="Le aziende con qui abbiamo collaborato"
         className="mt-24 sm:mt-32 lg:mt-40"
       >
         <p>
@@ -203,10 +203,9 @@ export default async function Home() {
         className="mt-24 sm:mt-32 lg:mt-40"
         client={{ name: 'Phobia', logo: logoPhobiaDark }}
       >
-        The team at Studio went above and beyond with our onboarding, even
-        finding a way to access the user’s microphone without triggering one of
-        those annoying permission dialogs.
-      </Testimonial>
+        Da oltre 20 anni, rappresentiamo con orgoglio Hermann Saunier Duval, leader nel settore termoidraulico, 
+        offrendo soluzioni innovative per riscaldamento e climatizzazione. 
+</Testimonial>
 
       <Services />
 

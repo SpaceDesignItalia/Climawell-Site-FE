@@ -82,11 +82,11 @@ function NewsletterForm() {
   return (
     <form className="max-w-sm">
       <h2 className="font-display text-sm font-semibold tracking-wider text-neutral-950">
-        Sign up for our newsletter
+        Isriviti alla nostra newsletter
       </h2>
       <p className="mt-4 text-sm text-neutral-700">
-        Subscribe to get the latest design news, articles, resources and
-        inspiration.
+      Iscriviti per non perderti nulla e ricevere le ultime notizie su di noi.
+
       </p>
       <div className="relative mt-6">
         <input
@@ -125,7 +125,8 @@ export function Footer() {
             <Logo className="h-8" fillOnHover />
           </Link>
           <p className="text-sm text-neutral-700">
-            © Studio Agency Inc. {new Date().getFullYear()}
+            © CLIMAWELL S.R.L. {new Date().getFullYear()} <br /> 
+            P.IVA 04732490489
           </p>
         </div>
       </FadeIn>
