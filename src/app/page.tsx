@@ -13,19 +13,19 @@ import logoBrightPath from '@/images/clients/bright-path/logo-light.svg'
 import logoAerauliqaLight from '@/images/clients/Aerauliqa/AerauliqaW.png'
 import logoGreenLife from '@/images/clients/green-life/logo-light.svg'
 import logoHomeWork from '@/images/clients/home-work/logo-light.svg'
-import logoMailSmirk from '@/images/clients/mail-smirk/logo-light.svg'
+import logoVaillant from '@/images/clients/vaillant/vaillant.png'
 import logoNorthAdventures from '@/images/clients/north-adventures/logo-light.svg'
 import logoPhobiaDark from '@/images/clients/herman/HermanB.png'
 import logoHermanLight from '@/images/clients/herman/HermanW.png'
-import logoUnseal from '@/images/clients/unseal/logo-light.svg'
+import logoScavolini from '@/images/clients/scavolini/scavolini.png'
 import imageLaptop from '@/images/laptop.jpg'
 import { type CaseStudy, type MDXEntry, loadCaseStudies } from '@/lib/mdx'
 
 const clients = [
   ['Herman', logoHermanLight],
   ['Aerauliqa', logoAerauliqaLight],
-  ['Unseal', logoUnseal],
-  ['Mail Smirk', logoMailSmirk],
+  ['Scavolini', logoScavolini],
+  ['Vaillant', logoVaillant],
   ['Home Work', logoHomeWork],
   ['Green Life', logoGreenLife],
   ['Bright Path', logoBrightPath],

@@ -7,11 +7,12 @@ import { socialMediaProfiles } from '@/components/SocialMedia'
 
 const navigation = [
   {
-    title: 'Work',
+    title: 'Lavoro',
     links: [
+      { title: 'Hermann Saunier Duval', href: '/work/herman' },
+      { title: 'Scavolini', href: '/work/scavolini' },
       { title: 'Aerauliqa', href: '/work/aerauliqa' },
-      { title: 'Unseal', href: '/work/unseal' },
-      { title: 'Phobia', href: '/work/phobia' },
+
       {
         title: (
           <>
@@ -23,7 +24,7 @@ const navigation = [
     ],
   },
   {
-    title: 'Company',
+    title: 'Azienda',
     links: [
       { title: 'About', href: '/about' },
       { title: 'Process', href: '/process' },
@@ -32,7 +33,7 @@ const navigation = [
     ],
   },
   {
-    title: 'Connect',
+    title: 'Seguici',
     links: socialMediaProfiles,
   },
 ]
@@ -91,7 +92,7 @@ function NewsletterForm() {
       <div className="relative mt-6">
         <input
           type="email"
-          placeholder="Email address"
+          placeholder="Indirizzo Email"
           autoComplete="email"
           aria-label="Email address"
           className="block w-full rounded-2xl border border-neutral-300 bg-transparent py-4 pl-6 pr-20 text-base/6 text-neutral-950 ring-4 ring-transparent transition placeholder:text-neutral-500 focus:border-neutral-950 focus:outline-none focus:ring-neutral-950/5"
