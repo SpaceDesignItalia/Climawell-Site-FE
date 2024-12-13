@@ -19,6 +19,8 @@ import logoPhobiaDark from '@/images/clients/herman/HermanB.png'
 import logoHermanLight from '@/images/clients/herman/HermanW.png'
 import logoScavolini from '@/images/clients/scavolini/scavolini.png'
 import imageLaptop from '@/images/laptop.jpg'
+import imageMagazzino from '@/images/magazzino.jpg'
+
 import { type CaseStudy, type MDXEntry, loadCaseStudies } from '@/lib/mdx'
 
 const clients = [
@@ -26,10 +28,7 @@ const clients = [
   ['Aerauliqa', logoAerauliqaLight],
   ['Scavolini', logoScavolini],
   ['Vaillant', logoVaillant],
-  ['Home Work', logoHomeWork],
-  ['Green Life', logoGreenLife],
-  ['Bright Path', logoBrightPath],
-  ['North Adventures', logoNorthAdventures],
+
 ]
 
 function Clients() {
@@ -61,77 +60,19 @@ function Clients() {
   )
 }
 
-function CaseStudies({
-  caseStudies,
-}: {
-  caseStudies: Array<MDXEntry<CaseStudy>>
-}) {
-  return (
-    <>
-      <SectionIntro
-        title="Le aziende con qui abbiamo collaborato"
-        className="mt-24 sm:mt-32 lg:mt-40"
-      >
-        <p>
-          We believe technology is the answer to the world’s greatest
-          challenges. It’s also the cause, so we find ourselves in bit of a
-          catch 22 situation.
-        </p>
-      </SectionIntro>
-      <Container className="mt-16">
-        <FadeInStagger className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {caseStudies.map((caseStudy) => (
-            <FadeIn key={caseStudy.href} className="flex">
-              <article className="relative flex w-full flex-col rounded-3xl p-6 ring-1 ring-neutral-950/5 transition hover:bg-neutral-50 sm:p-8">
-                <h3>
-                  <Link href={caseStudy.href}>
-                    <span className="absolute inset-0 rounded-3xl" />
-                    <Image
-                      src={caseStudy.logo}
-                      alt={caseStudy.client}
-                      className="h-16 w-16"
-                      unoptimized
-                    />
-                  </Link>
-                </h3>
-                <p className="mt-6 flex gap-x-2 text-sm text-neutral-950">
-                  <time
-                    dateTime={caseStudy.date.split('-')[0]}
-                    className="font-semibold"
-                  >
-                    {caseStudy.date.split('-')[0]}
-                  </time>
-                  <span className="text-neutral-300" aria-hidden="true">
-                    /
-                  </span>
-                  <span>Case study</span>
-                </p>
-                <p className="mt-6 font-display text-2xl font-semibold text-neutral-950">
-                  {caseStudy.title}
-                </p>
-                <p className="mt-4 text-base text-neutral-600">
-                  {caseStudy.description}
-                </p>
-              </article>
-            </FadeIn>
-          ))}
-        </FadeInStagger>
-      </Container>
-    </>
-  )
-}
+
 
 function Services() {
   return (
     <>
       <SectionIntro
-        eyebrow="Services"
-        title="We help you identify, explore and respond to new opportunities."
+        eyebrow="I Nostri Servizi"
+        title="Forniamo soluzioni termoidrauliche complete e su misura per ogni esigenza."
         className="mt-24 sm:mt-32 lg:mt-40"
       >
         <p>
-          As long as those opportunities involve giving us money to re-purpose
-          old projects — we can come up with an endless number of those.
+        La nostra esperienza ci consente di offrire servizi di qualità,
+        sempre incentrati sulle necessità dei clienti.
         </p>
       </SectionIntro>
       <Container className="mt-16">
@@ -139,31 +80,27 @@ function Services() {
           <div className="flex justify-center lg:w-1/2 lg:justify-end lg:pr-12">
             <FadeIn className="w-[33.75rem] flex-none lg:w-[45rem]">
               <StylizedImage
-                src={imageLaptop}
+                src={imageMagazzino}
                 sizes="(min-width: 1024px) 41rem, 31rem"
                 className="justify-center lg:justify-end"
               />
             </FadeIn>
           </div>
           <List className="mt-16 lg:mt-0 lg:w-1/2 lg:min-w-[33rem] lg:pl-4">
-            <ListItem title="Web development">
-              We specialise in crafting beautiful, high quality marketing pages.
-              The rest of the website will be a shell that uses lorem ipsum
-              everywhere.
+            <ListItem title="Vendita di componenti">
+            Offriamo un'ampia gamma di prodotti, dalle caldaie ai radiatori, selezionati dai migliori marchi.
             </ListItem>
-            <ListItem title="Application development">
-              We have a team of skilled developers who are experts in the latest
-              app frameworks, like Angular 1 and Google Web Toolkit.
+            <ListItem title="Consulenza specializzata">
+            Il nostro team è pronto ad aiutarti nella scelta delle soluzioni più adatte al tuo progetto.
             </ListItem>
-            <ListItem title="E-commerce">
-              We are at the forefront of modern e-commerce development. Which
-              mainly means adding your logo to the Shopify store template we’ve
-              used for the past six years.
+            <ListItem title="Supporto post-vendita">
+            Assicuriamo un’assistenza continua per garantirti la massima soddisfazione e affidabilità.
+
             </ListItem>
-            <ListItem title="Custom content management">
-              At Studio we understand the importance of having a robust and
-              customised CMS. That’s why we run all of our client projects out
-              of a single, enormous Joomla instance.
+            <ListItem title="Soluzioni innovative">
+            Ci aggiorniamo costantemente sulle nuove tecnologie per proporti sempre il meglio.
+
+
             </ListItem>
           </List>
         </div>
@@ -178,7 +115,6 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  let caseStudies = (await loadCaseStudies()).slice(0, 3)
 
   return (
     <>
@@ -197,7 +133,6 @@ export default async function Home() {
 
       <Clients />
 
-      <CaseStudies caseStudies={caseStudies} />
 
       <Testimonial
         className="mt-24 sm:mt-32 lg:mt-40"
@@ -205,9 +140,9 @@ export default async function Home() {
       >
         Da oltre 20 anni, rappresentiamo con orgoglio Hermann Saunier Duval, leader nel settore termoidraulico, 
         offrendo soluzioni innovative per riscaldamento e climatizzazione. 
-</Testimonial>
+      </Testimonial>
 
-      <Services />
+        <Services />
 
       <ContactSection />
     </>
