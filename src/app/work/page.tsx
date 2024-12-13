@@ -101,10 +101,7 @@ const clients = [
   ['Aerauliqa', logoAerauliqa],
   ['Scavolini', logoScavolini],
   ['Vaillant', logoVaillant],
-  ['Home Work', logoHomeWork],
-  ['Green Life', logoGreenLife],
-  ['Bright Path', logoBrightPath],
-  ['North Adventures', logoNorthAdventures],
+ 
 ]
 
 function Clients() {
@@ -112,7 +109,7 @@ function Clients() {
     <Container className="mt-24 sm:mt-32 lg:mt-40">
       <FadeIn>
         <h2 className="font-display text-2xl font-semibold text-neutral-950">
-          You’re in good company
+          Sei un buone mani
         </h2>
       </FadeIn>
       <FadeInStagger className="mt-10" faster>

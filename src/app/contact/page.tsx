@@ -9,6 +9,7 @@ import { FadeIn } from '@/components/FadeIn'
 import { Offices } from '@/components/Offices'
 import { PageIntro } from '@/components/PageIntro'
 import { SocialMedia } from '@/components/SocialMedia'
+import ContactMap from '@/components/ContactMap'
 
 function TextInput({
   label,
@@ -56,7 +57,7 @@ function ContactForm() {
     <FadeIn className="lg:order-last">
       <form>
         <h2 className="font-display text-base font-semibold text-neutral-950">
-        Specifiche di lavoro
+          Scrivici
         </h2>
         <div className="isolate mt-6 -space-y-px rounded-2xl bg-white/50">
           <TextInput label="Nome" name="name" autoComplete="name" />
@@ -154,6 +155,17 @@ export default function Contact() {
           <ContactForm />
           <ContactDetails />
         </div>
+      </Container>
+      <Container className="mt-24 sm:mt-32 lg:mt-40">
+        <FadeIn>
+          <h2 className="font-display text-base font-semibold text-neutral-950 mb-8">
+            La nostra sede principale
+          </h2>
+          <ContactMap />
+          <p className="mt-6 text-base text-neutral-600">
+            Via delle Tre Pietre, 2/c, 50127, Firenze
+          </p>
+        </FadeIn>
       </Container>
     </>
   )
