@@ -7,11 +7,12 @@ import { socialMediaProfiles } from '@/components/SocialMedia'
 
 const navigation = [
   {
-    title: 'Work',
+    title: 'Lavoro',
     links: [
-      { title: 'FamilyFund', href: '/work/family-fund' },
-      { title: 'Unseal', href: '/work/unseal' },
-      { title: 'Phobia', href: '/work/phobia' },
+      { title: 'Hermann Saunier Duval', href: '/work/herman' },
+      { title: 'Scavolini', href: '/work/scavolini' },
+      { title: 'Aerauliqa', href: '/work/aerauliqa' },
+
       {
         title: (
           <>
@@ -23,7 +24,7 @@ const navigation = [
     ],
   },
   {
-    title: 'Company',
+    title: 'Azienda',
     links: [
       { title: 'About', href: '/about' },
       { title: 'Process', href: '/process' },
@@ -32,7 +33,7 @@ const navigation = [
     ],
   },
   {
-    title: 'Connect',
+    title: 'Seguici',
     links: socialMediaProfiles,
   },
 ]
@@ -82,16 +83,16 @@ function NewsletterForm() {
   return (
     <form className="max-w-sm">
       <h2 className="font-display text-sm font-semibold tracking-wider text-neutral-950">
-        Sign up for our newsletter
+        Isriviti alla nostra newsletter
       </h2>
       <p className="mt-4 text-sm text-neutral-700">
-        Subscribe to get the latest design news, articles, resources and
-        inspiration.
+      Iscriviti per non perderti nulla e ricevere le ultime notizie su di noi.
+
       </p>
       <div className="relative mt-6">
         <input
           type="email"
-          placeholder="Email address"
+          placeholder="Indirizzo Email"
           autoComplete="email"
           aria-label="Email address"
           className="block w-full rounded-2xl border border-neutral-300 bg-transparent py-4 pl-6 pr-20 text-base/6 text-neutral-950 ring-4 ring-transparent transition placeholder:text-neutral-500 focus:border-neutral-950 focus:outline-none focus:ring-neutral-950/5"
@@ -125,7 +126,8 @@ export function Footer() {
             <Logo className="h-8" fillOnHover />
           </Link>
           <p className="text-sm text-neutral-700">
-            © Studio Agency Inc. {new Date().getFullYear()}
+            © CLIMAWELL S.R.L. {new Date().getFullYear()} <br /> 
+            P.IVA 04732490489
           </p>
         </div>
       </FadeIn>

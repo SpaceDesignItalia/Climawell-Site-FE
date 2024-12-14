@@ -20,7 +20,7 @@ import { GridPattern } from '@/components/GridPattern'
 import { Logo, Logomark } from '@/components/Logo'
 import { Offices } from '@/components/Offices'
 import { SocialMedia } from '@/components/SocialMedia'
-
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 const RootLayoutContext = createContext<{
   logoHovered: boolean
   setLogoHovered: React.Dispatch<React.SetStateAction<boolean>>
@@ -82,7 +82,7 @@ function Header({
         </Link>
         <div className="flex items-center gap-x-8">
           <Button href="/catalog" invert={invert}>
-            Catalogo
+            Catalogo <ShoppingCartIcon/>
           </Button>
           <button
             ref={toggleRef}
@@ -147,7 +147,7 @@ function Navigation() {
         <NavigationItem href="/about">Chi siamo</NavigationItem>
       </NavigationRow>
       <NavigationRow>
-        <NavigationItem href="/process">Nulla</NavigationItem>
+        <NavigationItem href="/work">Lavoro</NavigationItem>
         <NavigationItem href="/blog">Blog</NavigationItem>
       </NavigationRow>
     </nav>

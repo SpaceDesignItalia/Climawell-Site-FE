@@ -2,7 +2,7 @@ import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { FadeIn } from '@/components/FadeIn'
 import { Offices } from '@/components/Offices'
-
+import WavingHandIcon from '@mui/icons-material/WavingHand';
 export function ContactSection() {
   return (
     <Container className="mt-24 sm:mt-32 lg:mt-40">
@@ -10,16 +10,17 @@ export function ContactSection() {
         <div className="mx-auto max-w-4xl">
           <div className="max-w-xl">
             <h2 className="font-display text-3xl font-medium text-white [text-wrap:balance] sm:text-4xl">
-              Tell us about your project
+              Raccontaci i tuoi progetti
             </h2>
             <div className="mt-6 flex">
               <Button href="/contact" invert>
-                Say Hej
+                Salutaci  <WavingHandIcon/>
+
               </Button>
             </div>
             <div className="mt-10 border-t border-white/10 pt-10">
               <h3 className="font-display text-base font-semibold text-white">
-                Il nostro ufficio
+                Le nostre sedi 
               </h3>
               <Offices
                 invert

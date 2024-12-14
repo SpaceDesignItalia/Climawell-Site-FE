@@ -11,13 +11,13 @@ import { FadeIn, FadeInStagger } from '@/components/FadeIn'
 import { PageIntro } from '@/components/PageIntro'
 import { Testimonial } from '@/components/Testimonial'
 import logoBrightPath from '@/images/clients/bright-path/logo-dark.svg'
-import logoFamilyFund from '@/images/clients/family-fund/logo-dark.svg'
+import logoAerauliqa from '@/images/clients/aerauliqa/AerauliqaB.png'
 import logoGreenLife from '@/images/clients/green-life/logo-dark.svg'
 import logoHomeWork from '@/images/clients/home-work/logo-dark.svg'
-import logoMailSmirk from '@/images/clients/mail-smirk/logo-dark.svg'
+import logoVaillant from '@/images/clients/vaillant/vaillant.png'
 import logoNorthAdventures from '@/images/clients/north-adventures/logo-dark.svg'
-import logoPhobia from '@/images/clients/herman/HermanB.png'
-import logoUnseal from '@/images/clients/unseal/logo-dark.svg'
+import logoHerman from '@/images/clients/herman/HermanB.png'
+import logoScavolini from '@/images/clients/scavolini/scavolini.png'
 import { formatDate } from '@/lib/formatDate'
 import { type CaseStudy, type MDXEntry, loadCaseStudies } from '@/lib/mdx'
 
@@ -42,8 +42,8 @@ function CaseStudies({
                   <div className="sm:flex sm:items-center sm:gap-x-6 lg:block">
                     <Image
                       src={caseStudy.logo}
-                      alt=""
-                      className="h-16 w-16 flex-none"
+                      alt=""  
+                      className="h-20 w-20 flex-none object-contain"
                       unoptimized
                     />
                     <h3 className="mt-6 text-sm font-semibold text-neutral-950 sm:mt-0 lg:mt-8">
@@ -97,14 +97,11 @@ function CaseStudies({
 }
 
 const clients = [
-  ['Phobia', logoPhobia],
-  ['Family Fund', logoFamilyFund],
-  ['Unseal', logoUnseal],
-  ['Mail Smirk', logoMailSmirk],
-  ['Home Work', logoHomeWork],
-  ['Green Life', logoGreenLife],
-  ['Bright Path', logoBrightPath],
-  ['North Adventures', logoNorthAdventures],
+  ['Herman', logoHerman],
+  ['Aerauliqa', logoAerauliqa],
+  ['Scavolini', logoScavolini],
+  ['Vaillant', logoVaillant],
+ 
 ]
 
 function Clients() {
@@ -112,7 +109,7 @@ function Clients() {
     <Container className="mt-24 sm:mt-32 lg:mt-40">
       <FadeIn>
         <h2 className="font-display text-2xl font-semibold text-neutral-950">
-          You’re in good company
+          Sei un buone mani
         </h2>
       </FadeIn>
       <FadeInStagger className="mt-10" faster>
@@ -162,7 +159,7 @@ export default async function Work() {
 
       <Testimonial
         className="mt-24 sm:mt-32 lg:mt-40"
-        client={{ name: 'Mail Smirk', logo: logoMailSmirk }}
+        client={{ name: 'Vaillant', logo: logoVaillant }}
       >
         We approached <em>Studio</em> because we loved their past work. They
         delivered something remarkably similar in record time.
