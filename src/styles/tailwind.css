@@ -1,3 +1,22 @@
 @import './base.css';
 @import './components.css';
 @import './utilities.css';
+@keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  
+  .animate-marquee {
+    display: flex;
+    width: max-content; /* Impedisce il ridimensionamento del contenitore */
+    animation: marquee 90s linear infinite; /* Durata e fluidità */
+  }
+  
+  .animate-marquee > div {
+    flex: 0 0 auto; /* Impedisce il ridimensionamento dei loghi */
+  }
+  
