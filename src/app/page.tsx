@@ -28,6 +28,11 @@ const clients = [
   ['Aerauliqa', logoAerauliqaLight],
   ['Scavolini', logoScavolini],
   ['Vaillant', logoVaillant],
+<<<<<<< HEAD
+=======
+
+]
+>>>>>>> origin/feature/Testi
 
 ]
 function Clients() {
@@ -66,8 +71,11 @@ function Clients() {
 }
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/feature/Testi
 
 function Services() {
   return (

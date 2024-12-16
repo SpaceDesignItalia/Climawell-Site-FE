@@ -33,7 +33,11 @@
     "clsx": "^2.1.1",
     "escape-string-regexp": "^5.0.0",
     "fast-glob": "^3.2.12",
+<<<<<<< HEAD
     "framer-motion": "^10.18.0",
+=======
+    "framer-motion": "^10.15.2",
+>>>>>>> origin/feature/Testi
     "lucide-react": "^0.468.0",
     "next": "^14.0.4",
     "react": "^18.2.0",
