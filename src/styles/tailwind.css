@@ -13,7 +13,7 @@
   .animate-marquee {
     display: flex;
     width: max-content; /* Impedisce il ridimensionamento del contenitore */
-    animation: marquee 90s linear infinite; /* Durata e fluidità */
+    animation: marquee 200s linear infinite; /* Durata e fluidità */
   }
   
   .animate-marquee > div {
