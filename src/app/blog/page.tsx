@@ -22,10 +22,10 @@ export default async function Blog() {
 
   return (
     <>
-      <PageIntro eyebrow="Blog" title="The latest articles and news">
+      <PageIntro eyebrow="Blog" title="Le ultime notizie su articoli e novità"> 
         <p>
-          Stay up-to-date with the latest industry news as our marketing teams
-          finds new ways to re-purpose old CSS tricks articles.
+        Rimani aggiornato sulle ultime novità del settore e scopri soluzioni 
+        innovative per migliorare i tuoi progetti termoidraulici.
         </p>
       </PageIntro>
 
