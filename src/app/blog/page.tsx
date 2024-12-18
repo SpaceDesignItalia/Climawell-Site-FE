@@ -14,7 +14,7 @@ import { loadArticles } from '@/lib/mdx'
 export const metadata: Metadata = {
   title: 'Blog',
   description:
-    'Stay up-to-date with the latest industry news as our marketing teams finds new ways to re-purpose old CSS tricks articles.',
+    'Resta aggiornato sulle novita del settore e scopri soluzioni innovative per migliorare i tuoi progetti termoidraulici.',
 }
 
 export default async function Blog() {
@@ -72,7 +72,7 @@ export default async function Blog() {
                         aria-label={`Read more: ${article.title}`}
                         className="mt-8"
                       >
-                        Read more
+                        Leggi di più
                       </Button>
                     </div>
                   </div>
