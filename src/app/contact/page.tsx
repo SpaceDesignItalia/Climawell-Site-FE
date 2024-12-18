@@ -162,9 +162,7 @@ export default function Contact() {
             La nostra sede principale
           </h2>
           <ContactMap />
-          <p className="mt-6 text-base text-neutral-600">
-            Via delle Tre Pietre, 2/c, 50127, Firenze
-          </p>
+          
         </FadeIn>
       </Container>
     </>

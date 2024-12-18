@@ -7,29 +7,22 @@ import { socialMediaProfiles } from '@/components/SocialMedia'
 
 const navigation = [
   {
-    title: 'Lavoro',
+    title: 'Marche',
     links: [
-      { title: 'Hermann Saunier Duval', href: '/work/herman' },
-      { title: 'Scavolini', href: '/work/scavolini' },
-      { title: 'Aerauliqa', href: '/work/aerauliqa' },
+      { title: 'Hermann Saunier Duval', href: 'https://www.hermann-saunierduval.it' },
+      { title: 'Scavolini', href: 'https://www.scavolini.com' },
+      { title: 'Aerauliqa', href: 'https://www.aerauliqa.it' },
 
-      {
-        title: (
-          <>
-            See all <span aria-hidden="true">&rarr;</span>
-          </>
-        ),
-        href: '/work',
-      },
+      
     ],
   },
   {
     title: 'Azienda',
     links: [
-      { title: 'About', href: '/about' },
-      { title: 'Process', href: '/process' },
+      { title: 'Catalogo', href: '/catalog' },
+      { title: 'Chi siamo', href: '/about' },
       { title: 'Blog', href: '/blog' },
-      { title: 'Contact us', href: '/contact' },
+      { title: 'Contattaci', href: '/contact' },
     ],
   },
   {
