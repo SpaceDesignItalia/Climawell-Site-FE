@@ -30,38 +30,45 @@ const clients = [
   ['Vaillant', logoVaillant],
 
 ]
-
 function Clients() {
   return (
-    <div className="mt-24 rounded-4xl bg-neutral-950 py-20 sm:mt-32 sm:py-32 lg:mt-56">
+    <div className="mt-24 rounded-4xl bg-neutral-950 py-20 overflow-hidden sm:mt-32 sm:py-32 lg:mt-56">
       <Container>
+        {/* Titolo */}
         <FadeIn className="flex items-center gap-x-8">
           <h2 className="text-center font-display text-sm font-semibold tracking-wider text-white sm:text-left">
             Collaboriamo con
           </h2>
           <div className="h-px flex-auto bg-neutral-800" />
         </FadeIn>
-        <FadeInStagger faster>
-          <ul
-            role="list"
-            className="mt-10 grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4"
-          >
-            {clients.map(([client, logo]) => (
-              <li key={client}>
-                <FadeIn>
-                  <Image src={logo} alt={client} unoptimized />
-                </FadeIn>
-              </li>
+
+        {/* Carosello Loghi */}
+        <div className="relative mt-10 w-full overflow-hidden">
+          <div className="flex animate-marquee space-x-16">
+            {/* Loghi duplicati per effetto infinito */}
+            {Array(17).fill(clients).flat().map(([client, logo], index) => (
+              <div key={index} className="flex-shrink-0 w-[200px] h-[100px] flex items-center justify-center">
+          <Image
+            src={logo}
+            alt={client}
+            width={180}
+            height={90}
+            className="object-contain"
+            unoptimized
+          />
+              </div>
             ))}
-          </ul>
-        </FadeInStagger>
+          </div>
+        </div>
       </Container>
     </div>
-  )
+  );
 }
 
 
 
+
+  
 function Services() {
   return (
     <>
@@ -109,10 +116,7 @@ function Services() {
   )
 }
 
-export const metadata: Metadata = {
-  description:
-    'We are a development studio working at the intersection of design and technology.',
-}
+
 
 export default async function Home() {
 

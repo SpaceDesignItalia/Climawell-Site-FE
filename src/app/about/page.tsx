@@ -64,11 +64,6 @@ const team = [
         image: { src: imageLeslieAlexander },
       },
       {
-        name: 'Stefano Albin',
-        role: 'Co-Founder',
-        image: { src: imageMichaelFoster },
-      },
-      {
         name: 'Savino Depalma',
         role: 'Co-Founder',
         image: { src: imageDriesVincent },
@@ -123,10 +118,69 @@ const team = [
         role: 'Front-end Developer',
         image: { src: imageAngelaFisher },
       },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
+      {
+        name: 'Chelsea Hagon',
+        role: 'Senior Developer',
+        image: { src: imageChelseaHagon },
+      },
     ],
   },
 ]
-
 function Team() {
   return (
     <Container className="mt-24 sm:mt-32 lg:mt-40">
@@ -148,11 +202,13 @@ function Team() {
                   {group.people.map((person) => (
                     <li key={person.name}>
                       <FadeIn>
-                        <div className="group relative overflow-hidden rounded-3xl bg-neutral-100">
+                        {/* Wrapper con effetto gruppo per l'hover */}
+                        <div className="group relative overflow-hidden rounded-3xl bg-neutral-100 transition duration-500">
+                          {/* Immagine con l'effetto hover per rimuovere il grayscale */}
                           <Image
                             alt=""
                             {...person.image}
-                            className="h-96 w-full object-cover grayscale transition duration-500 motion-safe:group-hover:scale-105"
+                            className="h-96 w-full object-cover grayscale transition duration-500 group-hover:grayscale-0 motion-safe:group-hover:scale-105"
                           />
                           <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black to-black/0 to-40% p-6">
                             <p className="font-display text-base/6 font-semibold tracking-wide text-white">

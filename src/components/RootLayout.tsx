@@ -17,10 +17,10 @@ import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { Footer } from '@/components/Footer'
 import { GridPattern } from '@/components/GridPattern'
-import { Logo, Logomark } from '@/components/Logo'
+import { Logo } from '@/components/Logo'
 import { Offices } from '@/components/Offices'
 import { SocialMedia } from '@/components/SocialMedia'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 const RootLayoutContext = createContext<{
   logoHovered: boolean
   setLogoHovered: React.Dispatch<React.SetStateAction<boolean>>
@@ -69,21 +69,17 @@ function Header({
           onMouseEnter={() => setLogoHovered(true)}
           onMouseLeave={() => setLogoHovered(false)}
         >
-          <Logomark
-            className="h-8 sm:hidden"
-            invert={invert}
-            filled={logoHovered}
-          />
+        
           <Logo
             className="hidden h-8 sm:block"
             invert={invert}
             filled={logoHovered}
           />
         </Link>
+        
         <div className="flex items-center gap-x-8">
-          <Button href="/catalog" invert={invert}>
-            Catalogo <ShoppingCartIcon/>
-          </Button>
+          
+          {/* <Button href="/catalog" invert={invert}>Log in <LoginRoundedIcon/>  </Button>  QUESTO E UN BOTTONE*/} 
           <button
             ref={toggleRef}
             type="button"
@@ -107,6 +103,7 @@ function Header({
           </button>
         </div>
       </div>
+      
     </Container>
   )
 }
@@ -147,7 +144,7 @@ function Navigation() {
         <NavigationItem href="/about">Chi siamo</NavigationItem>
       </NavigationRow>
       <NavigationRow>
-        <NavigationItem href="/work">Lavoro</NavigationItem>
+        <NavigationItem href="/catalog">Catalogo</NavigationItem>
         <NavigationItem href="/blog">Blog</NavigationItem>
       </NavigationRow>
     </nav>
