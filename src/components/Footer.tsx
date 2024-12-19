@@ -1,9 +1,12 @@
 import Link from 'next/link'
+import axios from "axios";
+import { useState } from "react";
 
 import { Container } from '@/components/Container'
 import { FadeIn } from '@/components/FadeIn'
 import { Logo } from '@/components/Logo'
 import { socialMediaProfiles } from '@/components/SocialMedia'
+import { API_URL } from '@/API/API';
 
 const navigation = [
   {
@@ -73,14 +76,35 @@ function ArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 }
 
 function NewsletterForm() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState(null);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("Email:", email);
+    try {
+      const response = await axios.post(API_URL+"/Newsletter/POST/PostEmail", {  email  });
+      setStatus({ 
+        type: "success",
+        message: "Iscrizione avvenuta con successo!",
+      });
+      setEmail(""); // Reset del campo email
+    } catch (error) {
+      console.error("Errore durante l'iscrizione:", error);
+      setStatus({
+        type: "error",
+        message: "Errore durante l'iscrizione. Riprova più tardi.",
+      });
+    }
+  };
+
   return (
-    <form className="max-w-sm">
+    <form onSubmit={handleSubmit} className="max-w-sm">
       <h2 className="font-display text-sm font-semibold tracking-wider text-neutral-950">
-        Isriviti alla nostra newsletter
+        Iscriviti alla nostra newsletter
       </h2>
       <p className="mt-4 text-sm text-neutral-700">
-      Iscriviti per non perderti nulla e ricevere le ultime notizie su di noi.
-
+        Iscriviti per non perderti nulla e ricevere le ultime notizie su di noi.
       </p>
       <div className="relative mt-6">
         <input
@@ -88,7 +112,10 @@ function NewsletterForm() {
           placeholder="Indirizzo Email"
           autoComplete="email"
           aria-label="Email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="block w-full rounded-2xl border border-neutral-300 bg-transparent py-4 pl-6 pr-20 text-base/6 text-neutral-950 ring-4 ring-transparent transition placeholder:text-neutral-500 focus:border-neutral-950 focus:outline-none focus:ring-neutral-950/5"
+          required
         />
         <div className="absolute inset-y-1 right-1 flex justify-end">
           <button
@@ -100,8 +127,17 @@ function NewsletterForm() {
           </button>
         </div>
       </div>
+      {status && (
+        <p
+          className={`mt-4 text-sm ${
+            status.type === "success" ? "text-green-600" : "text-red-600"
+          }`}
+        >
+          {status.message}
+        </p>
+      )}
     </form>
-  )
+  );
 }
 
 export function Footer() {
