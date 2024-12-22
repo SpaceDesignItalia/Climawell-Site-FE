@@ -56,28 +56,8 @@ export default function StorePage() {
     getProducts()
   }, [])
 
-  if (loading) {
-    return <div>Caricamento...</div> // Mostra un messaggio di caricamento
-  }
-
   if (error) {
     return <div>{error}</div> // Mostra un messaggio di errore
-  }
-
-  // Aggiungi la condizione per verificare se entrambi i gruppi di prodotti sono vuoti
-  if (products.length === 0 && featuredProducts.length === 0) {
-    return (
-      <div className="bg-white">
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-            Vetrina
-          </h2>
-          <div className="mt-6 text-center text-lg text-gray-500">
-            Nessun prodotto disponibile
-          </div>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -107,6 +87,7 @@ export default function StorePage() {
                       <a href={`/products/${featuredProduct.ProductId}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         <p>{featuredProduct.ProductName}</p>
+                        <p>{featuredProduct.ProductModelName}</p>
                         <p>{featuredProduct.CategoryName}</p>
                       </a>
                     </h3>
@@ -146,6 +127,7 @@ export default function StorePage() {
                       <a href={`/products/${product.ProductId}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         <p>{product.ProductName}</p>
+                        <p>{product.ProductModelName}</p>
                         <p>{product.CategoryName}</p>
                       </a>
                     </h3>

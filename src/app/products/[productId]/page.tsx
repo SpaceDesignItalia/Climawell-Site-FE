@@ -5,18 +5,19 @@ import axios from 'axios'
 import { useParams } from 'next/navigation'
 import { API_URL } from '@/API/API'
 
-const fetchProductData = async (productId) => {
+const fetchProductData = async (productId: any) => {
   try {
     const response = await axios.get(
       `${API_URL}/Products/GET/GetProductById/${productId}`,
     )
+
     const images = await axios.get(
       `${API_URL}/Products/GET/GetImagesByProductId/${productId}`,
     )
-    console.log('Product data:', response.data)
     return [response.data, images.data]
   } catch (error) {
     console.error('Errore nel recupero dei dati del prodotto:', error)
+    window.location.href = '/not-found'
     return null
   }
 }
@@ -51,9 +52,19 @@ export default function ProductPage() {
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
             <div className="flex justify-between">
-              <h1 className="text-xl font-medium text-gray-900">
-                {product.ProductName}
-              </h1>
+              <div>
+                {product.CategoryName ? (
+                  <p className="text-sm text-gray-500">
+                    {product.CategoryName}
+                  </p>
+                ) : (
+                  <p className="text-sm text-gray-500">Nessuna categoria</p>
+                )}
+
+                <h1 className="text-xl font-medium text-gray-900">
+                  {product.ProductName}
+                </h1>
+              </div>
               <p className="text-xl font-medium text-gray-900">
                 € {product.UnitPrice}
               </p>
@@ -65,11 +76,11 @@ export default function ProductPage() {
             <h2 className="sr-only">Images</h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
-              {Array.isArray(product.images) &&
+              {Array.isArray(product.images) && product.images.length > 0 ? (
                 product.images.map((image, index) => (
                   <img
                     key={index}
-                    alt={'Product Image ' + product.ProductName}
+                    alt={image.ProductImageAlt || `Product Image ${index + 1}`}
                     src={`${API_URL}/Products/GET/GetImageByPath/${image.ProductImageUrl}`}
                     className={classNames(
                       image.primary
@@ -78,14 +89,28 @@ export default function ProductPage() {
                       'rounded-lg',
                     )}
                   />
-                ))}
+                ))
+              ) : (
+                <div className="text-center text-gray-500">
+                  Nessuna immagine disponibile
+                </div>
+              )}
             </div>
           </div>
 
           <div className="mt-8 lg:col-span-5">
-            {/* Product details */}
             <div className="mt-10">
-              <h2 className="text-sm font-medium text-gray-900">Description</h2>
+              <h2 className="text-sm font-medium text-gray-900">Modello</h2>
+              <div className="flex flex-row gap-4 space-y-4">
+                <p className="mt-4 text-sm text-gray-500">
+                  {product.ProductModelName}
+                </p>
+              </div>
+            </div>
+            {/* Product details */}
+
+            <div className="mt-8 border-t border-gray-200 pt-8">
+              <h2 className="text-sm font-medium text-gray-900">Descrizione</h2>
               <div
                 dangerouslySetInnerHTML={{ __html: product.ProductDescription }}
                 className="mt-4 space-y-4 text-sm/6 text-gray-500"
