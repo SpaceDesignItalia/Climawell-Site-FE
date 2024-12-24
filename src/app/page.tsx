@@ -20,7 +20,7 @@ import logoHermanLight from '@/images/clients/herman/HermanW.png'
 import logoScavolini from '@/images/clients/scavolini/scavolini.png'
 import imageLaptop from '@/images/laptop.jpg'
 import imageMagazzino from '@/images/magazzino.jpg'
-
+import {Team} from '@/components/Team'
 import { type CaseStudy, type MDXEntry, loadCaseStudies } from '@/lib/mdx'
 
 const clients = [
