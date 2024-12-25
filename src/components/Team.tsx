@@ -30,9 +30,9 @@ export function Space() {
                   />                
                   <div className="p-10 pt-4">
                     <h3 className="text-sm/4 font-semibold text-black-600">Magazzino</h3>
-                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Tutto ciò di cui hai bisogno, in un solo posto</p>
+                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Il centro della nostra logistica</p>
                     <p className="mt-2 max-w-lg text-sm/6 text-gray-600">
-                      Il nostro magazzino è attrezzato con tutto il necessario per soddisfare le tue esigenze. Dalla gestione dei prodotti alla preparazione degli ordini, ogni spazio è pensato per ottimizzare il flusso di lavoro e garantire efficienza.
+                      Ogni dettaglio del nostro magazzino è ottimizzato per velocità ed efficienza: dai prodotti agli ordini, tutto è organizzato per soddisfare al meglio le tue necessità.
                     </p>
                   </div>
                 </div>
@@ -49,9 +49,9 @@ export function Space() {
                   />    
                   <div className="p-10 pt-4">
                     <h3 className="text-sm/4 font-semibold text-black-600">Ufficio</h3>
-                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Il cuore pulsante della nostra attività</p>
+                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Creatività e innovazione al centro</p>
                     <p className="mt-2 max-w-lg text-sm/6 text-gray-600">
-                      Il nostro ufficio è dove le idee prendono forma. Ogni spazio è progettato per promuovere la collaborazione e l'innovazione. Offriamo l'ambiente ideale per dare vita ai progetti più ambiziosi.
+                      Nel nostro ufficio, ogni progetto prende forma grazie a uno spazio dedicato al confronto, alla collaborazione e all'innovazione.
                     </p>
                   </div>
                 </div>
@@ -68,9 +68,9 @@ export function Space() {
                   />    
                   <div className="p-10 pt-4">
                     <h3 className="text-sm/4 font-semibold text-black-600">Velocità</h3>
-                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Progettato per gli utenti più esigenti</p>
+                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Risultati rapidi senza compromessi</p>
                     <p className="mt-2 max-w-lg text-sm/6 text-gray-600">
-                      La velocità è la nostra priorità. Ogni processo è ottimizzato per garantire che tu possa ottenere i risultati più rapidamente, senza compromettere la qualità. Offriamo un ambiente che facilita l'efficienza e il miglioramento continuo.
+                      Processi ottimizzati per rispondere prontamente alle esigenze dei clienti, mantenendo sempre alta la qualità.
                     </p>
                   </div>
                 </div>
@@ -87,9 +87,9 @@ export function Space() {
                   /> 
                   <div className="p-10 pt-4">
                     <h3 className="text-sm/4 font-semibold text-black-600">Competenza</h3>
-                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Collaboriamo con i migliori</p>
+                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Esperti al tuo servizio</p>
                     <p className="mt-2 max-w-lg text-sm/6 text-gray-600">
-                      Il nostro team è composto da professionisti altamente qualificati, esperti nel loro campo. Collaboriamo per offrire soluzioni innovative e di qualità superiore, mettendo a disposizione delle aziende le competenze più avanzate.
+                      Professionisti altamente qualificati lavorano con te per fornire soluzioni avanzate e personalizzate.
                     </p>
                   </div>
                 </div>
@@ -106,9 +106,9 @@ export function Space() {
                   /> 
                   <div className="p-10 pt-4">
                     <h3 className="text-sm/4 font-semibold text-black-600">Cliente soddisfatto</h3>
-                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Il nostro obiettivo è la tua soddisfazione</p>
+                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950">Il nostro successo è la tua soddisfazione</p>
                     <p className="mt-2 max-w-lg text-sm/6 text-gray-600">
-                      La soddisfazione del cliente è al centro di tutto ciò che facciamo. Ogni aspetto del nostro lavoro è orientato a garantire che i nostri clienti ricevano il miglior servizio e le migliori soluzioni per le loro esigenze.
+                      Con un approccio orientato al cliente, lavoriamo per garantire soluzioni su misura e un servizio impeccabile.
                     </p>
                   </div>
                 </div>
@@ -120,4 +120,3 @@ export function Space() {
       </div>
     )
 }
-
