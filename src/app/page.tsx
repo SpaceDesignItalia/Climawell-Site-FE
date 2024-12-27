@@ -15,7 +15,7 @@ import logoGreenLife from '@/images/clients/green-life/logo-light.svg'
 import logoHomeWork from '@/images/clients/home-work/logo-light.svg'
 import logoVaillant from '@/images/clients/vaillant/vaillant.png'
 import logoNorthAdventures from '@/images/clients/north-adventures/logo-light.svg'
-import logoPhobiaDark from '@/images/clients/herman/HermanB.png'
+import logoessecasa from '@/images/essecasa/essecasa.png'
 import logoHermanLight from '@/images/clients/herman/HermanW.png'
 import logoScavolini from '@/images/clients/scavolini/scavolini.png'
 import imageLaptop from '@/images/laptop.jpg'
@@ -140,10 +140,10 @@ export default async function Home() {
 
       <Testimonial
         className="mt-24 sm:mt-32 lg:mt-40"
-        client={{ name: 'Phobia', logo: logoPhobiaDark }}
+        client={{ name: 'Essecasa', logo: logoessecasa }}
       >
-        Da oltre 20 anni, rappresentiamo con orgoglio Hermann Saunier Duval, leader nel settore termoidraulico, 
-        offrendo soluzioni innovative per riscaldamento e climatizzazione. 
+            Essecasa, fondata nel 2016 e parte del gruppo Climawell, è il punto di riferimento per soluzioni innovative nel settore dell'arredamento. 
+            Visita il nostro showroom per scoprire prodotti di alta qualità per la tua casa.  
       </Testimonial>
 
         <Services />
