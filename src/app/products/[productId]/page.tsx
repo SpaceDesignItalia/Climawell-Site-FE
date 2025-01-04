@@ -47,6 +47,7 @@ export default function ProductPage() {
     Depth: 0,
     Weight: 0,
     CategoryName: '',
+    DiscountPercentage: 0,
     images: [
       {
         ProductImageUrl: '',
@@ -93,8 +94,26 @@ export default function ProductPage() {
                   </h1>
                 </div>
               </div>
-              <p className="text-xl font-medium text-gray-900">
-                € {product.UnitPrice}
+              <p className="my-auto text-xl font-medium text-gray-900">
+                {product.DiscountPercentage ? (
+                  <>
+                    <span className="text-red-500 line-through">
+                      € {product.UnitPrice}
+                    </span>
+                    <span className="ml-2 text-green-500">
+                      €{' '}
+                      {(
+                        product.UnitPrice *
+                        (1 - product.DiscountPercentage / 100)
+                      ).toFixed(2)}{' '}
+                    </span>
+                    <span className="ml-2 rounded-full bg-green-500 px-2 py-1 text-sm font-semibold text-white">
+                      - {product.DiscountPercentage}%
+                    </span>
+                  </>
+                ) : (
+                  `€ ${product.UnitPrice}`
+                )}
               </p>
             </div>
 

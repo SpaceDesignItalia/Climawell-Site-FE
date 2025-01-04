@@ -94,6 +94,7 @@ export default function StorePage() {
       ProductModelName: '',
       CategoryName: '',
       UnitPrice: 0,
+      DiscountPercentage: 0,
       FirstImage: '',
     },
   ])
@@ -104,6 +105,7 @@ export default function StorePage() {
       ProductModelName: '',
       CategoryName: '',
       UnitPrice: 0,
+      DiscountPercentage: 0,
       FirstImage: '',
     },
   ])
@@ -311,7 +313,27 @@ export default function StorePage() {
                         <div className="mt-4 flex justify-between">
                           <div>
                             <p className="text-sm font-medium text-gray-900">
-                              € {featuredProduct.UnitPrice}
+                              {featuredProduct.DiscountPercentage ? (
+                                <>
+                                  <span className="text-red-500 line-through">
+                                    € {featuredProduct.UnitPrice}
+                                  </span>
+                                  <span className="ml-2 text-green-500">
+                                    €{' '}
+                                    {(
+                                      featuredProduct.UnitPrice *
+                                      (1 -
+                                        featuredProduct.DiscountPercentage /
+                                          100)
+                                    ).toFixed(2)}
+                                  </span>
+                                  <span className="ml-2 rounded-full bg-green-500 px-2 py-1 text-xs font-semibold text-white">
+                                    - {featuredProduct.DiscountPercentage}%
+                                  </span>
+                                </>
+                              ) : (
+                                `€ ${featuredProduct.UnitPrice}`
+                              )}
                             </p>
                             <h3 className="text-sm text-gray-700">
                               <a
@@ -485,8 +507,27 @@ export default function StorePage() {
                         <div className="mt-4 flex justify-between">
                           <div>
                             <p className="text-sm font-medium text-gray-900">
-                              € {product.UnitPrice}
+                              {product.DiscountPercentage ? (
+                                <>
+                                  <span className="text-red-500 line-through">
+                                    € {product.UnitPrice}
+                                  </span>
+                                  <span className="ml-2 text-green-500">
+                                    €{' '}
+                                    {(
+                                      product.UnitPrice *
+                                      (1 - product.DiscountPercentage / 100)
+                                    ).toFixed(2)}
+                                  </span>
+                                  <span className="ml-2 rounded-full bg-green-500 px-2 py-1 text-xs font-semibold text-white">
+                                    - {product.DiscountPercentage}%
+                                  </span>
+                                </>
+                              ) : (
+                                `€ ${product.UnitPrice}`
+                              )}
                             </p>
+
                             <h3 className="text-sm text-gray-700">
                               <a href={`/products/${product.ProductId}`}>
                                 <span
