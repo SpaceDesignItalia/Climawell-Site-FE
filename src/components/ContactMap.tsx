@@ -1,39 +1,10 @@
 'use client'
+
 import { useState, useMemo, useCallback } from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { MapPin, Plus, Minus } from 'lucide-react'
 
 const mapStyles = [
-  {
-    featureType: 'all',
-    elementType: 'geometry',
-    stylers: [{ color: '#f5f5f5' }]
-  },
-  {
-    featureType: 'all',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#616161' }]
-  },
-  {
-    featureType: 'all',
-    elementType: 'labels.text.stroke',
-    stylers: [{ color: '#f5f5f5' }]
-  },
-  {
-    featureType: 'road',
-    elementType: 'geometry',
-    stylers: [{ color: '#ffffff' }]
-  },
-  {
-    featureType: 'water',
-    elementType: 'geometry',
-    stylers: [{ color: '#e9e9e9' }]
-  },
-  {
-    featureType: 'water',
-    elementType: 'labels.text.fill',
-    stylers: [{ color: '#9e9e9e' }]
-  },
   {
     featureType: 'poi',
     elementType: 'labels',
@@ -43,6 +14,41 @@ const mapStyles = [
     featureType: 'transit',
     elementType: 'labels',
     stylers: [{ visibility: 'off' }]
+  },
+  {
+    featureType: 'water',
+    elementType: 'geometry',
+    stylers: [{ color: '#c8d7d4' }]
+  },
+  {
+    featureType: 'landscape.natural',
+    elementType: 'geometry',
+    stylers: [{ color: '#f0f0f0' }]
+  },
+  {
+    featureType: 'road',
+    elementType: 'geometry',
+    stylers: [{ color: '#ffffff' }]
+  },
+  {
+    featureType: 'road',
+    elementType: 'labels.text.fill',
+    stylers: [{ color: '#666666' }]
+  },
+  {
+    featureType: 'road.arterial',
+    elementType: 'geometry',
+    stylers: [{ color: '#ffffff' }]
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'geometry',
+    stylers: [{ color: '#ffffff' }]
+  },
+  {
+    featureType: 'road.local',
+    elementType: 'geometry',
+    stylers: [{ color: '#ffffff' }]
   }
 ]
 
@@ -55,21 +61,23 @@ const MapButton = ({ onClick, children, className = '' }) => (
   </button>
 )
 
+const libraries: ("places" | "geometry" | "drawing" | "visualization")[] = []
+
 const ContactMap = () => {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'AIzaSyBP9kWoPQ5LI68jIzrGQEVFPZcbKK0BlZU',
+    libraries: libraries
   })
 
-  const center = useMemo(() => ({ lat: 43.7851, lng: 11.2242 }), [])
+  const center = useMemo(() => ({ lat: 43.804005, lng: 11.23203 }), [])
   const [map, setMap] = useState<google.maps.Map | null>(null)
   const [zoom, setZoom] = useState(15)
 
   const onLoad = useCallback((map: google.maps.Map) => {
-    const bounds = new window.google.maps.LatLngBounds(center)
-    map.fitBounds(bounds)
+    map.setZoom(zoom)
     setMap(map)
-  }, [center])
+  }, [zoom])
 
   const onUnmount = useCallback(() => {
     setMap(null)
