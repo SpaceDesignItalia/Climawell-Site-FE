@@ -154,6 +154,15 @@ export function Footer() {
           <Link href="/" aria-label="Home">
             <Logo className="h-8" fillOnHover />
           </Link>
+          <p className="mt-10 text-center text-sm/6 text-gray-500">
+          Powered by {""}
+          <a
+            href="https://www.spacedesign-italia.it"
+            className="font-semibold  hover:text-red-400"
+          >
+            🚀 Space Design Italia
+          </a>
+        </p>
           <p className="text-sm text-neutral-700">
             © CLIMAWELL S.R.L. {new Date().getFullYear()} <br /> 
             P.IVA 04732490489
