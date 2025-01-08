@@ -72,12 +72,16 @@ function ContactForm() {
             name="company"
             autoComplete="organization"
           />
-          <TextInput label="Telefono" type="tel" name="phone" autoComplete="tel" />
+          <TextInput
+            label="Telefono"
+            type="tel"
+            name="phone"
+            autoComplete="tel"
+          />
           <TextInput label="Messaggio" name="message" />
-        
         </div>
         <Button type="submit" className="mt-10">
-          Lavoriamo insieme!
+          Contattaci!
         </Button>
       </form>
     </FadeIn>
@@ -91,7 +95,7 @@ function ContactDetails() {
         Le nostre sedi
       </h2>
       <p className="mt-6 text-base text-neutral-600">
-      Preferisci fare le cose di persona? <br /> Noi pure!     
+        Preferisci fare le cose di persona? <br /> Noi pure!
       </p>
 
       <Offices className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2" />
@@ -104,12 +108,9 @@ function ContactDetails() {
           {[
             ['Climawell', 'info@climawell.it', '340 814 2732'],
             ['Essecasa', 'info@essecasa.it', '388 129 9371'],
-           
-
-
           ].map(([label, email, number]) => (
             <div key={email}>
-              <dt className="font-semibold text-neutral-950">{label}</dt>
+              <dd className="font-semibold text-neutral-950">{label}</dd>
               <dd>
                 <Link
                   href={`mailto:${email}`}
@@ -118,9 +119,9 @@ function ContactDetails() {
                   {email}
                 </Link>
 
-                <dt className="text-neutral-600 hover:text-neutral-950"
-                >{number}</dt>
-                
+                <dt className="text-neutral-600 hover:text-neutral-950">
+                  {number}
+                </dt>
               </dd>
             </div>
           ))}
@@ -129,7 +130,7 @@ function ContactDetails() {
 
       <Border className="mt-16 pt-16">
         <h2 className="font-display text-base font-semibold text-neutral-950">
-          Follow us
+          Seguici su
         </h2>
         <SocialMedia className="mt-6" />
       </Border>
@@ -146,8 +147,7 @@ export default function Contact() {
   return (
     <>
       <PageIntro eyebrow="Contattaci" title="Lavoriamo insieme">
-        <p>Non vediamo l'ora di conoscerti.
-        </p>
+        <p>Non vediamo l'ora di conoscerti.</p>
       </PageIntro>
 
       <Container className="mt-24 sm:mt-32 lg:mt-40">
@@ -158,11 +158,10 @@ export default function Contact() {
       </Container>
       <Container className="mt-24 sm:mt-32 lg:mt-40">
         <FadeIn>
-          <h2 className="font-display text-base font-semibold text-neutral-950 mb-8">
+          <h2 className="mb-8 font-display text-base font-semibold text-neutral-950">
             La nostra sede principale
           </h2>
           <ContactMap />
-          
         </FadeIn>
       </Container>
     </>

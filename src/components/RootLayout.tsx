@@ -20,7 +20,7 @@ import { GridPattern } from '@/components/GridPattern'
 import { Logo } from '@/components/Logo'
 import { Offices } from '@/components/Offices'
 import { SocialMedia } from '@/components/SocialMedia'
-import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded'
 const RootLayoutContext = createContext<{
   logoHovered: boolean
   setLogoHovered: React.Dispatch<React.SetStateAction<boolean>>
@@ -69,17 +69,15 @@ function Header({
           onMouseEnter={() => setLogoHovered(true)}
           onMouseLeave={() => setLogoHovered(false)}
         >
-        
           <Logo
             className="hidden h-8 sm:block"
             invert={invert}
             filled={logoHovered}
           />
         </Link>
-        
+
         <div className="flex items-center gap-x-8">
-          
-          {/* <Button href="/catalog" invert={invert}>Log in <LoginRoundedIcon/>  </Button>  QUESTO E UN BOTTONE*/} 
+          {/* <Button href="/catalog" invert={invert}>Log in <LoginRoundedIcon/>  </Button>  QUESTO E UN BOTTONE*/}
           <button
             ref={toggleRef}
             type="button"
@@ -103,7 +101,6 @@ function Header({
           </button>
         </div>
       </div>
-      
     </Container>
   )
 }
@@ -231,7 +228,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                   <div>
                     <h2 className="font-display text-base font-semibold text-white">
                       Le nostre sedi
-                    </h2> 
+                    </h2>
                     <Offices
                       invert
                       className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2"
@@ -239,7 +236,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                   </div>
                   <div className="sm:border-l sm:border-transparent sm:pl-16">
                     <h2 className="font-display text-base font-semibold text-white">
-                      Follow us
+                      Seguici su
                     </h2>
                     <SocialMedia className="mt-6" invert />
                   </div>

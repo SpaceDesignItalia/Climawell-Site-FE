@@ -1,22 +1,23 @@
 import Link from 'next/link'
-import axios from "axios";
-import { useState } from "react";
+import axios from 'axios'
+import { useState } from 'react'
 
 import { Container } from '@/components/Container'
 import { FadeIn } from '@/components/FadeIn'
 import { Logo } from '@/components/Logo'
 import { socialMediaProfiles } from '@/components/SocialMedia'
-import { API_URL } from '@/API/API';
+import { API_URL } from '@/API/API'
 
 const navigation = [
   {
     title: 'Marche',
     links: [
-      { title: 'Hermann Saunier Duval', href: 'https://www.hermann-saunierduval.it' },
+      {
+        title: 'Hermann Saunier Duval',
+        href: 'https://www.hermann-saunierduval.it',
+      },
       { title: 'Scavolini', href: 'https://www.scavolini.com' },
       { title: 'Aerauliqa', href: 'https://www.aerauliqa.it' },
-
-      
     ],
   },
   {
@@ -76,27 +77,30 @@ function ArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 }
 
 function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState(null);
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<any>(null)
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log("Email:", email);
+  const handleSubmit = async (event: any) => {
+    event.preventDefault()
+    console.log('Email:', email)
     try {
-      const response = await axios.post(API_URL+"/Newsletter/POST/PostEmail", {  email  });
-      setStatus({ 
-        type: "success",
-        message: "Iscrizione avvenuta con successo!",
-      });
-      setEmail(""); // Reset del campo email
-    } catch (error) {
-      console.error("Errore durante l'iscrizione:", error);
+      const response = await axios.post(
+        API_URL + '/Newsletter/POST/PostEmail',
+        { email },
+      )
       setStatus({
-        type: "error",
+        type: 'success',
+        message: 'Iscrizione avvenuta con successo!',
+      })
+      setEmail('') // Reset del campo email
+    } catch (error) {
+      console.error("Errore durante l'iscrizione:", error)
+      setStatus({
+        type: 'error',
         message: "Errore durante l'iscrizione. Riprova più tardi.",
-      });
+      })
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className="max-w-sm">
@@ -130,14 +134,14 @@ function NewsletterForm() {
       {status && (
         <p
           className={`mt-4 text-sm ${
-            status.type === "success" ? "text-green-600" : "text-red-600"
+            status.type === 'success' ? 'text-green-600' : 'text-red-600'
           }`}
         >
           {status.message}
         </p>
       )}
     </form>
-  );
+  )
 }
 
 export function Footer() {
@@ -155,16 +159,16 @@ export function Footer() {
             <Logo className="h-8" fillOnHover />
           </Link>
           <p className="mt-10 text-center text-sm/6 text-gray-500">
-          Powered by {""}
-          <a
-            href="https://www.spacedesign-italia.it"
-            className="font-semibold  hover:text-red-400"
-          >
-            🚀 Space Design Italia
-          </a>
-        </p>
+            Powered by {''}
+            <a
+              href="https://www.spacedesign-italia.it"
+              className="font-semibold hover:text-red-400"
+            >
+              🚀 Space Design Italia
+            </a>
+          </p>
           <p className="text-sm text-neutral-700">
-            © CLIMAWELL S.R.L. {new Date().getFullYear()} <br /> 
+            © CLIMAWELL S.R.L. {new Date().getFullYear()} <br />
             P.IVA 04732490489
           </p>
         </div>

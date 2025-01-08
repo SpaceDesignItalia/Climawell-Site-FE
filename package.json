@@ -20,7 +20,6 @@
     "@mui/icons-material": "^6.1.9",
     "@mui/material": "^6.1.9",
     "@next/mdx": "^14.0.4",
-    "@nextui-org/react": "^2.4.8",
     "@react-google-maps/api": "^2.20.3",
     "@types/mdx": "^2.0.7",
     "@types/node": "^20.10.8",
