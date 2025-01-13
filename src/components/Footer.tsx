@@ -23,6 +23,7 @@ const navigation = [
   {
     title: 'Azienda',
     links: [
+      { title: 'Home', href: '/' },
       { title: 'Catalogo', href: '/catalog' },
       { title: 'Chi siamo', href: '/about' },
       { title: 'Blog', href: '/blog' },

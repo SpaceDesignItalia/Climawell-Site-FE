@@ -52,7 +52,13 @@ const mapStyles = [
   }
 ]
 
-const MapButton = ({ onClick, children, className = '' }) => (
+interface MapButtonProps {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  children: React.ReactNode;
+  className?: string;
+}
+
+const MapButton = ({ onClick, children, className = '' }: MapButtonProps) => (
   <button
     onClick={onClick}
     className={`bg-white text-black border border-black rounded-full p-2 hover:bg-black hover:text-white transition-colors ${className}`}
@@ -85,7 +91,7 @@ const ContactMap = () => {
 
   const handleZoomIn = () => {
     if (map) {
-      const newZoom = Math.min(map.getZoom() + 1, 20)
+      const newZoom = Math.min((map.getZoom() ?? 15) + 1, 20)
       map.setZoom(newZoom)
       setZoom(newZoom)
     }
@@ -93,7 +99,8 @@ const ContactMap = () => {
 
   const handleZoomOut = () => {
     if (map) {
-      const newZoom = Math.max(map.getZoom() - 1, 1)
+      const currentZoom = map.getZoom() ?? 15
+      const newZoom = Math.max(currentZoom - 1, 1)
       map.setZoom(newZoom)
       setZoom(newZoom)
     }

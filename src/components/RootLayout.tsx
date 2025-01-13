@@ -13,14 +13,14 @@ import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 import { motion, MotionConfig, useReducedMotion } from 'framer-motion'
 
-import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { Footer } from '@/components/Footer'
 import { GridPattern } from '@/components/GridPattern'
 import { Logo } from '@/components/Logo'
 import { Offices } from '@/components/Offices'
 import { SocialMedia } from '@/components/SocialMedia'
-import LoginRoundedIcon from '@mui/icons-material/LoginRounded'
+
+
 const RootLayoutContext = createContext<{
   logoHovered: boolean
   setLogoHovered: React.Dispatch<React.SetStateAction<boolean>>
@@ -66,18 +66,18 @@ function Header({
         <Link
           href="/"
           aria-label="Home"
+          className="hidden sm:block"
           onMouseEnter={() => setLogoHovered(true)}
           onMouseLeave={() => setLogoHovered(false)}
         >
           <Logo
-            className="hidden h-8 sm:block"
+            className="h-8"
             invert={invert}
             filled={logoHovered}
           />
         </Link>
 
         <div className="flex items-center gap-x-8">
-          {/* <Button href="/catalog" invert={invert}>Log in <LoginRoundedIcon/>  </Button>  QUESTO E UN BOTTONE*/}
           <button
             ref={toggleRef}
             type="button"
@@ -118,14 +118,19 @@ function NavigationRow({ children }: { children: React.ReactNode }) {
 function NavigationItem({
   href,
   children,
+  className,
 }: {
   href: string
   children: React.ReactNode
+  className?: string
 }) {
   return (
     <Link
       href={href}
-      className="group relative isolate -mx-6 bg-neutral-950 px-6 py-10 even:mt-px sm:mx-0 sm:px-0 sm:py-16 sm:odd:pr-16 sm:even:mt-0 sm:even:border-l sm:even:border-neutral-800 sm:even:pl-16"
+      className={clsx(
+        "group relative isolate -mx-6 bg-neutral-950 px-6 py-10 even:mt-px sm:mx-0 sm:px-0 sm:py-16 sm:odd:pr-16 sm:even:mt-0 sm:even:border-l sm:even:border-neutral-800 sm:even:pl-16",
+        className
+      )}
     >
       {children}
       <span className="absolute inset-y-0 -z-10 w-screen bg-neutral-900 opacity-0 transition group-odd:right-0 group-even:left-0 group-hover:opacity-100" />
@@ -133,9 +138,37 @@ function NavigationItem({
   )
 }
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 640)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  return isMobile
+}
+
 function Navigation() {
+  const isMobile = useIsMobile()
+
+  if (isMobile === null) return null
+
   return (
     <nav className="mt-px font-display text-5xl font-medium tracking-tight text-white">
+      {isMobile && (
+        <NavigationRow>
+          <NavigationItem href="/" className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <span>Home</span>
+            </div>
+          </NavigationItem>
+        </NavigationRow>
+      )}
       <NavigationRow>
         <NavigationItem href="/contact">Contattaci</NavigationItem>
         <NavigationItem href="/about">Chi siamo</NavigationItem>
@@ -147,6 +180,10 @@ function Navigation() {
     </nav>
   )
 }
+
+
+
+
 
 function RootLayoutInner({ children }: { children: React.ReactNode }) {
   let panelId = useId()
@@ -281,3 +318,4 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
     </RootLayoutContext.Provider>
   )
 }
+
