@@ -180,7 +180,7 @@ export default async function About() {
         <StatList>
           <StatListItem value="20" label="Dipendenti" />
           <StatListItem value="7000+" label="Clienti soddisfatti" />
-          <StatListItem value="€21M" label="Fatturato annuale" />
+          <StatListItem value="100+" label="Marche" />
         </StatList>
       </Container>
 
