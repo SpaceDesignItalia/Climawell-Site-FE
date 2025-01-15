@@ -1,11 +1,11 @@
 {
-  "name": "Climawell",
+  "name": "climawell",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 8080 & next start -p 443",
     "lint": "next lint"
   },
   "browserslist": "defaults, not ie <= 11",
