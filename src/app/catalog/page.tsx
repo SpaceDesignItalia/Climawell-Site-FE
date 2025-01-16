@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import { API_URL } from '@/API/API'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -45,7 +45,7 @@ export default function StorePage() {
   const [order, setOrder] = useState('ASC')
   const [orderBy, setOrderBy] = useState('UnitPrice')
 
-  const orderProducts = async (
+  const orderProducts = useCallback(async (
     order: string,
     orderBy: string,
     query: string,
@@ -63,7 +63,7 @@ export default function StorePage() {
       console.error('Errore nel recupero dei prodotti:', error)
       return null
     }
-  }
+  }, [])
 
   const [products, setProducts] = useState([
     {
@@ -80,7 +80,7 @@ export default function StorePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<any>(null)
 
-  const itemsPerPage = 4
+  const itemsPerPage = 16
   const totalProductPages = Math.ceil(products.length / itemsPerPage)
   const [currentProductPage, setCurrentProductPage] = useState(1)
 
@@ -116,7 +116,7 @@ export default function StorePage() {
 
     getProducts()
     orderProducts(order, orderBy, searchQuery)
-  }, [])
+  }, [order, orderBy, searchQuery, orderProducts])
 
   if (error) {
     return <div>{error}</div>
@@ -158,19 +158,16 @@ export default function StorePage() {
                     Product filters
                   </h2>
 
-                  <div className="flex items-center justify-between">
-                    <div className="mt-2 grid grid-cols-1">
-                      <Menu
-                        as="div"
-                        className="relative inline-block text-left"
-                      >
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div className="mb-4 sm:mb-0">
+                      <Menu as="div" className="relative inline-block text-left">
                         <div>
                           <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                             Ordina per prezzo{' '}
                             {order == 'ASC' ? 'crescente' : 'decrescente'}
                             <ChevronDownIcon
                               aria-hidden="true"
-                              className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                              className="pointer-events-none ml-2 size-5 self-center text-gray-500 sm:size-4"
                             />
                           </Menu.Button>
                         </div>
@@ -218,7 +215,7 @@ export default function StorePage() {
                       </Menu>
                     </div>
 
-                    <div className="mt-2 grid w-1/3 grid-cols-1">
+                    <div className="relative w-full sm:w-1/3">
                       <input
                         onChange={(e) => {
                           setSearchQuery(e.target.value)
@@ -228,11 +225,11 @@ export default function StorePage() {
                         name="name"
                         type="name"
                         placeholder="Cerca per nome prodotto"
-                        className="col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-10 pr-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:pl-9 sm:text-sm/6"
+                        className="block w-full rounded-md bg-white py-1.5 pl-10 pr-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
                       />
                       <SearchRoundedIcon
                         aria-hidden="true"
-                        className="pointer-events-none col-start-1 row-start-1 ml-3 size-5 self-center text-gray-400 sm:size-4"
+                        className="pointer-events-none absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                       />
                     </div>
                   </div>
@@ -348,3 +345,4 @@ export default function StorePage() {
     </Container>
   )
 }
+

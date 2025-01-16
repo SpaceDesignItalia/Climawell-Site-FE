@@ -1,8 +1,8 @@
 'use client'
 
-import { API_IMAGE_URL, API_URL } from '@/API/API'
+import { API_URL } from '@/API/API'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Menu } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
@@ -10,6 +10,8 @@ import {
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
 } from '@heroicons/react/20/solid'
+import { ProductCard } from './ProductCard'
+import { useMediaQuery } from 'react-responsive'
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -29,6 +31,12 @@ export function FeaturedProducts() {
       FirstImage: '',
     },
   ])
+  const [currentProductIndex, setCurrentProductIndex] = useState(0)
+  const [featuredOrder, setFeaturedOrder] = useState('ASC')
+  const [featuredOrderBy, setFeaturedOrderBy] = useState('UnitPrice')
+  const [featuredSearchQuery, setFeaturedSearchQuery] = useState('')
+
+  const isMobile = useMediaQuery({ maxWidth: 767 })
   const itemsPerPage = 4
   const totalFeaturedPages = Math.ceil(featuredProducts.length / itemsPerPage)
   const [currentFeaturedPage, setCurrentFeaturedPage] = useState(1)
@@ -39,15 +47,9 @@ export function FeaturedProducts() {
     startFeaturedIndex + itemsPerPage,
   )
 
-  const [featuredOrder, setFeaturedOrder] = useState('ASC')
-  const [featuredOrderBy, setFeaturedOrderBy] = useState('UnitPrice')
-  const [featuredSearchQuery, setFeaturedSearchQuery] = useState('')
-
-  const goToFeaturedPage = (page: any) => {
-    if (page >= 1 && page <= totalFeaturedPages) {
-      setCurrentFeaturedPage(page)
-    }
-  }
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
 
   const fetchFeaturedProducts = async () => {
     try {
@@ -102,7 +104,37 @@ export function FeaturedProducts() {
     orderFeaturedProducts(featuredOrder, featuredOrderBy, featuredSearchQuery)
   }, [])
 
-  if (!featuredProducts) {
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 75) {
+      // Swipe left
+      setCurrentProductIndex((prevIndex) =>
+        prevIndex === featuredProducts.length - 1 ? 0 : prevIndex + 1
+      )
+    }
+
+    if (touchStart - touchEnd < -75) {
+      // Swipe right
+      setCurrentProductIndex((prevIndex) =>
+        prevIndex === 0 ? featuredProducts.length - 1 : prevIndex - 1
+      )
+    }
+  }
+
+  const goToFeaturedPage = (page: number) => {
+    if (page >= 1 && page <= totalFeaturedPages) {
+      setCurrentFeaturedPage(page)
+    }
+  }
+
+  if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
         <div
@@ -116,6 +148,11 @@ export function FeaturedProducts() {
       </div>
     )
   }
+
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>
+  }
+
   return (
     <div className="rounded-lg">
       <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:max-w-7xl lg:px-8">
@@ -133,8 +170,8 @@ export function FeaturedProducts() {
             Product filters
           </h2>
 
-          <div className="flex items-center justify-between">
-            <div>
+          <div className={`flex ${isMobile ? 'flex-col' : 'items-center justify-between'}`}>
+            <div className={`${isMobile ? 'mb-4' : ''}`}>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
@@ -198,7 +235,7 @@ export function FeaturedProducts() {
               </Menu>
             </div>
 
-            <div className="mt-2 grid w-1/3 grid-cols-1">
+            <div className={`${isMobile ? 'w-full' : 'w-1/3'} relative`}>
               <input
                 onChange={(e) => {
                   setFeaturedSearchQuery(e.target.value)
@@ -212,11 +249,11 @@ export function FeaturedProducts() {
                 name="name"
                 type="name"
                 placeholder="Cerca per nome prodotto"
-                className="col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-10 pr-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:pl-9 sm:text-sm/6"
+                className="block w-full rounded-md bg-white py-1.5 pl-10 pr-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
               />
               <SearchRoundedIcon
                 aria-hidden="true"
-                className="pointer-events-none col-start-1 row-start-1 ml-3 size-5 self-center text-gray-400 sm:size-4"
+                className="pointer-events-none absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
               />
             </div>
           </div>
@@ -229,102 +266,93 @@ export function FeaturedProducts() {
               <div className="mt-6 text-center text-lg text-gray-500">
                 Nessun prodotto in evidenza
               </div>
+            ) : isMobile ? (
+              <div
+                ref={sliderRef}
+                className="relative overflow-hidden"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
+                <div
+                  className="flex transition-transform duration-300 ease-out"
+                  style={{
+                    transform: `translateX(-${currentProductIndex * 100}%)`,
+                  }}
+                >
+                  {featuredProducts.map((product, index) => (
+                    <div key={product.ProductId} className="w-full flex-shrink-0">
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 flex justify-center">
+                  {featuredProducts.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentProductIndex(index)}
+                      className={`h-2 w-2 rounded-full mx-1 ${
+                        currentProductIndex === index
+                          ? 'bg-gray-800'
+                          : 'bg-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
             ) : (
               <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                {currentFeaturedProducts.map((featuredProduct) => (
-                  <div
-                    key={featuredProduct.ProductId}
-                    className="group relative"
-                  >
-                    <img
-                      alt={'Product Image ' + featuredProduct.ProductName}
-                      src={`${API_IMAGE_URL}${featuredProduct.FirstImage}`}
-                      className="aspect-square w-full rounded-md object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
-                    />
-                    <div className="mt-4 flex justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-gray-900">
-                          {featuredProduct.DiscountPercentage ? (
-                            <>
-                              <span className="text-red-500 line-through">
-                                € {featuredProduct.UnitPrice}
-                              </span>
-                              <span className="ml-2 text-green-500">
-                                €{' '}
-                                {(
-                                  featuredProduct.UnitPrice *
-                                  (1 - featuredProduct.DiscountPercentage / 100)
-                                ).toFixed(2)}
-                              </span>
-                              <span className="ml-2 rounded-full bg-green-500 px-2 py-1 text-xs font-semibold text-white">
-                                - {featuredProduct.DiscountPercentage}%
-                              </span>
-                            </>
-                          ) : (
-                            `€ ${featuredProduct.UnitPrice}`
-                          )}
-                        </p>
-                        <h3 className="text-sm text-gray-700">
-                          <a href={`/products/${featuredProduct.ProductId}`}>
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0"
-                            />
-                            <p>{featuredProduct.ProductName}</p>
-                            <p>{featuredProduct.ProductModelName}</p>
-                            <p>{featuredProduct.CategoryName}</p>
-                          </a>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
+                {currentFeaturedProducts.map((product) => (
+                  <ProductCard key={product.ProductId} product={product} />
                 ))}
               </div>
             )}
-            <nav className="my-12 flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
-              <div className="-mt-px flex w-0 flex-1">
-                <button
-                  onClick={() => goToFeaturedPage(currentFeaturedPage - 1)}
-                  disabled={currentFeaturedPage === 1}
-                  className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:opacity-50"
-                >
-                  <ArrowLongLeftIcon
-                    aria-hidden="true"
-                    className="mr-3 size-5 text-gray-400"
-                  />
-                  Precedente
-                </button>
-              </div>
-              <div className="hidden md:-mt-px md:flex">
-                {Array.from({ length: totalFeaturedPages }, (_, index) => (
+            {!isMobile && (
+              <nav className="my-12 flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
+                <div className="-mt-px flex w-0 flex-1">
                   <button
-                    key={index}
-                    onClick={() => goToFeaturedPage(index + 1)}
-                    className={classNames(
-                      'inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium',
-                      currentFeaturedPage === index + 1
-                        ? 'text-black-600 border-black'
-                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                    )}
+                    onClick={() => goToFeaturedPage(currentFeaturedPage - 1)}
+                    disabled={currentFeaturedPage === 1}
+                    className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:opacity-50"
                   >
-                    {index + 1}
+                    <ArrowLongLeftIcon
+                      aria-hidden="true"
+                      className="mr-3 size-5 text-gray-400"
+                    />
+                    Precedente
                   </button>
-                ))}
-              </div>
-              <div className="-mt-px flex w-0 flex-1 justify-end">
-                <button
-                  onClick={() => goToFeaturedPage(currentFeaturedPage + 1)}
-                  disabled={currentFeaturedPage === totalFeaturedPages}
-                  className="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:opacity-50"
-                >
-                  Successiva
-                  <ArrowLongRightIcon
-                    aria-hidden="true"
-                    className="ml-3 size-5 text-gray-400"
-                  />
-                </button>
-              </div>
-            </nav>
+                </div>
+                <div className="hidden md:-mt-px md:flex">
+                  {Array.from({ length: totalFeaturedPages }, (_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToFeaturedPage(index + 1)}
+                      className={classNames(
+                        'inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium',
+                        currentFeaturedPage === index + 1
+                          ? 'text-black-600 border-black'
+                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                      )}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+                <div className="-mt-px flex w-0 flex-1 justify-end">
+                  <button
+                    onClick={() => goToFeaturedPage(currentFeaturedPage + 1)}
+                    disabled={currentFeaturedPage === totalFeaturedPages}
+                    className="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:opacity-50"
+                  >
+                    Successiva
+                    <ArrowLongRightIcon
+                      aria-hidden="true"
+                      className="ml-3 size-5 text-gray-400"
+                    />
+                  </button>
+                </div>
+              </nav>
+            )}
           </div>
         </div>
       </div>
