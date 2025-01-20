@@ -45,25 +45,57 @@ export default function StorePage() {
   const [order, setOrder] = useState('ASC')
   const [orderBy, setOrderBy] = useState('UnitPrice')
 
-  const orderProducts = useCallback(async (
-    order: string,
-    orderBy: string,
-    query: string,
-  ) => {
-    try {
-      const response = await axios.get(
-        `${API_URL}/Products/GET/OrderProductsBy`,
-        {
-          params: { order: order, orderBy: orderBy, searchQuery: query },
-        },
-      )
-      setProducts(response.data)
-      return response.data
-    } catch (error) {
-      console.error('Errore nel recupero dei prodotti:', error)
-      return null
+  const orderProducts = useCallback(
+    async (order: string, orderBy: string, query: string) => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/Products/GET/OrderProductsBy`,
+          {
+            params: { order: order, orderBy: orderBy, searchQuery: query },
+          },
+        )
+        setProducts(response.data)
+        return response.data
+      } catch (error) {
+        console.error('Errore nel recupero dei prodotti:', error)
+        return null
+      }
+    },
+    [],
+  )
+
+  const generatePagination = (currentPage: number, totalPages: number) => {
+    const pages = []
+    const maxPagesToShow = 7 // Numero massimo di elementi visibili (compresi numeri e ellipsis)
+    const range = 2 // Numero di pagine da mostrare intorno alla pagina corrente
+
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      pages.push(1) // Prima pagina
+
+      if (currentPage > range + 2) {
+        pages.push('...')
+      }
+
+      const start = Math.max(2, currentPage - range)
+      const end = Math.min(totalPages - 1, currentPage + range)
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i)
+      }
+
+      if (currentPage < totalPages - range - 1) {
+        pages.push('...')
+      }
+
+      pages.push(totalPages) // Ultima pagina
     }
-  }, [])
+
+    return pages
+  }
 
   const [products, setProducts] = useState([
     {
@@ -74,6 +106,7 @@ export default function StorePage() {
       UnitPrice: 0,
       DiscountPercentage: 0,
       FirstImage: '',
+      BrandName: '',
     },
   ])
 
@@ -160,7 +193,10 @@ export default function StorePage() {
 
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                     <div className="mb-4 sm:mb-0">
-                      <Menu as="div" className="relative inline-block text-left">
+                      <Menu
+                        as="div"
+                        className="relative inline-block text-left"
+                      >
                         <div>
                           <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                             Ordina per prezzo{' '}
@@ -229,7 +265,7 @@ export default function StorePage() {
                       />
                       <SearchRoundedIcon
                         aria-hidden="true"
-                        className="pointer-events-none absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400"
                       />
                     </div>
                   </div>
@@ -249,12 +285,20 @@ export default function StorePage() {
                       <div key={product.ProductId} className="group relative">
                         <img
                           alt={'Product Image ' + product.ProductName}
-                          src={`${API_IMAGE_URL}${product.FirstImage}`}
+                          src={
+                            product.FirstImage.includes('https://')
+                              ? product.FirstImage
+                              : `${API_IMAGE_URL}${product.FirstImage}`
+                          }
                           className="aspect-square w-full rounded-md object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
                         />
+                        <p className="text-semibold font-medium text-gray-800">
+                          {product.BrandName}
+                        </p>
+                        <p className="text-xs">{product.CategoryName}</p>
                         <div className="mt-4 flex justify-between">
                           <div>
-                            <p className="text-sm font-medium text-gray-900">
+                            {/*  <p className="text-sm font-medium text-gray-900">
                               {product.DiscountPercentage ? (
                                 <>
                                   <span className="text-red-500 line-through">
@@ -275,7 +319,7 @@ export default function StorePage() {
                                 `€ ${product.UnitPrice}`
                               )}
                             </p>
-
+ */}
                             <h3 className="text-sm text-gray-700">
                               <a href={`/products/${product.ProductId}`}>
                                 <span
@@ -284,7 +328,6 @@ export default function StorePage() {
                                 />
                                 <p>{product.ProductName}</p>
                                 <p>{product.ProductModelName}</p>
-                                <p>{product.CategoryName}</p>
                               </a>
                             </h3>
                           </div>
@@ -293,7 +336,8 @@ export default function StorePage() {
                     ))}
                   </div>
                 )}
-                <nav className="my-12 flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
+
+                <nav className="mt-10 flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
                   <div className="-mt-px flex w-0 flex-1">
                     <button
                       onClick={() => goToProductPage(currentProductPage - 1)}
@@ -308,20 +352,31 @@ export default function StorePage() {
                     </button>
                   </div>
                   <div className="hidden md:-mt-px md:flex">
-                    {Array.from({ length: totalProductPages }, (_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => goToProductPage(index + 1)}
-                        className={classNames(
-                          'inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium',
-                          currentProductPage === index + 1
-                            ? 'text-black-600 border-black'
-                            : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                        )}
-                      >
-                        {index + 1}
-                      </button>
-                    ))}
+                    {generatePagination(
+                      currentProductPage,
+                      totalProductPages,
+                    ).map((page, index) =>
+                      page === '...' ? (
+                        <span
+                          key={`ellipsis-${index}`}
+                          className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500"
+                        >
+                          ...
+                        </span>
+                      ) : (
+                        <button
+                          key={page}
+                          onClick={() => goToProductPage(page)}
+                          className={`inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium ${
+                            currentProductPage === page
+                              ? 'border-indigo-500 text-indigo-600'
+                              : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ),
+                    )}
                   </div>
                   <div className="-mt-px flex w-0 flex-1 justify-end">
                     <button
@@ -345,4 +400,3 @@ export default function StorePage() {
     </Container>
   )
 }
-
