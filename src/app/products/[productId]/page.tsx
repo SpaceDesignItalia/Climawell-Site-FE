@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation'
 import { API_URL } from '@/API/API'
 import { API_IMAGE_URL } from '@/API/API'
 import { Container } from '@/components/Container'
+import { FullScreenGallery } from '@/components/FullScreenGallery'
 
 const fetchProductData = async (productId: any) => {
   try {
@@ -23,9 +24,18 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
+const responsiveClasses = {
+  container: "px-4 sm:px-6 lg:px-8",
+  title: "text-2xl sm:text-3xl lg:text-4xl font-bold",
+  price: "text-xl sm:text-2xl lg:text-3xl",
+  description: "text-sm sm:text-base",
+};
+
 export default function ProductPage() {
   const { productId } = useParams()
   const [product, setProduct] = useState<any>(null)
+  const [galleryOpen, setGalleryOpen] = useState(false)
+  const [initialImageIndex, setInitialImageIndex] = useState(0)
 
   useEffect(() => {
     const loadProductData = async () => {
@@ -45,9 +55,8 @@ export default function ProductPage() {
           DiscountPercentage: productData.DiscountPercentage || null,
           images:
             productData.ProductImages?.map((img: any) => ({
-              ProductImageUrl: img.ProductImageUrl,
+              ProductImageUrl: `${API_IMAGE_URL}${img.ProductImageUrl}`,
               ProductImageAlt: img.ProductImageAlt || 'Immagine prodotto',
-              primary: false,
             })) || [],
         })
       }
@@ -70,113 +79,104 @@ export default function ProductPage() {
     )
   }
 
+  const openGallery = (index: number) => {
+    setInitialImageIndex(index)
+    setGalleryOpen(true)
+  }
+
   return (
-    <Container className="mt-12 sm:mt-32 md:mt-56">
+    <Container className="mt-8 sm:mt-16 md:mt-24">
       <div className="rounded-xl sm:pt-10">
-        <main className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-          <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
-            <div className="lg:col-span-5 lg:col-start-8">
-              <div className="flex justify-between">
-                <div>
-                  <p className="text-sm text-gray-500">
-                    {product.CategoryName}
-                  </p>
-                  <h1 className="text-xl font-medium text-gray-900">
-                    {product.ProductName}
-                  </h1>
-                </div>
+        <main className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
+            {/* Dettagli del prodotto */}
+            <div className="order-1 lg:order-2 mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+              <div>
+                <p className="text-sm text-gray-500">{product.CategoryName}</p>
+                <h1 className={`${responsiveClasses.title} tracking-tight text-gray-900`}>{product.ProductName}</h1>
               </div>
-              <p className="my-auto text-xl font-medium text-gray-900">
-                {product.DiscountPercentage ? (
-                  <>
-                    <span className="text-red-500 line-through">
-                      € {product.UnitPrice}
-                    </span>
-                    <span className="ml-2 text-green-500">
-                      €{' '}
-                      {(
-                        product.UnitPrice *
-                        (1 - product.DiscountPercentage / 100)
-                      ).toFixed(2)}{' '}
-                    </span>
-                    <span className="ml-2 rounded-full bg-green-500 px-2 py-1 text-sm font-semibold text-white">
-                      - {product.DiscountPercentage}%
-                    </span>
-                  </>
-                ) : (
-                  `€ ${product.UnitPrice}`
-                )}
-              </p>
+
+              <div className="mt-3">
+                <p className={`${responsiveClasses.price} tracking-tight text-gray-900`}>
+                  {product.DiscountPercentage ? (
+                    <>
+                      <span className="text-red-500 line-through">€ {product.UnitPrice}</span>
+                      <span className="ml-2 text-green-500">
+                        € {(product.UnitPrice * (1 - product.DiscountPercentage / 100)).toFixed(2)}{' '}
+                      </span>
+                      <span className="ml-2 rounded-full bg-green-500 px-2 py-1 text-sm font-semibold text-white">
+                        - {product.DiscountPercentage}%
+                      </span>
+                    </>
+                  ) : (
+                    `€ ${product.UnitPrice}`
+                  )}
+                </p>
+              </div>
+
+              <div className="mt-6">
+                <h2 className="text-sm font-medium text-gray-900">Descrizione</h2>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: product.ProductDescription,
+                  }}
+                  className={`${responsiveClasses.description} mt-4 space-y-4 text-gray-500`}
+                />
+              </div>
+
+              <div className="mt-8 border-t border-gray-200 pt-8">
+                <h2 className="text-sm font-medium text-gray-900">Quantità disponibile</h2>
+                <p className="mt-4 text-sm text-gray-500">{product.ProductAmount} Pz.</p>
+              </div>
+
+              <div className="mt-8 border-t border-gray-200 pt-8">
+                <h2 className="text-sm font-medium text-gray-900">Dimensioni (LxHxP) e peso</h2>
+                <p className="mt-4 text-sm text-gray-500">
+                  {product.Width} x {product.Height} x {product.Depth} cm
+                </p>
+                <p className="mt-4 text-sm text-gray-500">{product.Weight} Kg</p>
+              </div>
             </div>
 
-            <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
-              <h2 className="sr-only">Images</h2>
-
+            {/* Immagini del prodotto */}
+            <div className="order-2 lg:order-1 lg:col-span-1 mt-10 lg:mt-0">
+              <h2 className="sr-only">Immagini</h2>
               {Array.isArray(product.images) && product.images.length > 0 ? (
-                product.images.length === 1 ? (
-                  <img
-                    alt={product.images[0].ProductImageAlt || 'Product Image'}
-                    src={`${API_IMAGE_URL}${product.images[0].ProductImageUrl}`}
-                    className="w-full rounded-lg"
-                  />
-                ) : (
-                  <div className="grid grid-cols-2 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
-                    {product.images.map((image: any, index: any) => (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {product.images.map((image: any, index: number) => (
+                    <div 
+                      key={index}
+                      className={classNames(
+                        index === 0 ? 'sm:col-span-2' : '',
+                        'aspect-w-3 aspect-h-2 overflow-hidden rounded-lg'
+                      )}
+                    >
                       <img
-                        key={index}
-                        alt={
-                          image.ProductImageAlt || `Product Image ${index + 1}`
-                        }
-                        src={API_IMAGE_URL + image.ProductImageUrl}
-                        className={classNames(
-                          index === 0
-                            ? 'lg:col-span-2 lg:row-span-2'
-                            : 'lg:block',
-                          'rounded-lg',
-                        )}
+                        alt={image.ProductImageAlt}
+                        src={image.ProductImageUrl || "/placeholder.svg"}
+                        className="h-full w-full object-cover object-center cursor-pointer transition-transform duration-300 hover:scale-105"
+                        onClick={() => openGallery(index)}
                       />
-                    ))}
-                  </div>
-                )
+                    </div>
+                  ))}
+                </div>
               ) : (
                 <div className="text-center text-gray-500">
                   Nessuna immagine disponibile
                 </div>
               )}
             </div>
-
-            <div className="mt-8 lg:col-span-5">
-              <h2 className="text-sm font-medium text-gray-900">Descrizione</h2>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: product.ProductDescription,
-                }}
-                className="mt-4 space-y-4 text-sm/6 text-gray-500"
-              />
-              <div className="mt-8 border-t border-gray-200 pt-8">
-                <h2 className="text-sm font-medium text-gray-900">
-                  Quantità disponibile
-                </h2>
-                <p className="mt-4 text-sm text-gray-500">
-                  {product.ProductAmount} Pz.
-                </p>
-              </div>
-
-              <div className="mt-8 border-t border-gray-200 pt-8">
-                <h2 className="text-sm font-medium text-gray-900">
-                  Dimensioni (LxHxP) e peso
-                </h2>
-                <p className="mt-4 text-sm text-gray-500">
-                  {product.Width} x {product.Height} x {product.Depth} cm
-                </p>
-                <p className="mt-4 text-sm text-gray-500">
-                  {product.Weight} Kg
-                </p>
-              </div>
-            </div>
           </div>
         </main>
       </div>
+      {galleryOpen && (
+        <FullScreenGallery
+          images={product.images}
+          initialIndex={initialImageIndex}
+          onClose={() => setGalleryOpen(false)}
+        />
+      )}
     </Container>
   )
 }
+
