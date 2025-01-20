@@ -97,6 +97,9 @@ export default function ProductPage() {
               </div>
 
               <div className="mt-3">
+                {/*
+              
+
                 <p className={`${responsiveClasses.price} tracking-tight text-gray-900`}>
                   {product.DiscountPercentage ? (
                     <>
@@ -112,6 +115,8 @@ export default function ProductPage() {
                     `€ ${product.UnitPrice}`
                   )}
                 </p>
+                */}
+
               </div>
 
               <div className="mt-6">
@@ -123,12 +128,14 @@ export default function ProductPage() {
                   className={`${responsiveClasses.description} mt-4 space-y-4 text-gray-500`}
                 />
               </div>
-
+{/*
               <div className="mt-8 border-t border-gray-200 pt-8">
+                 
                 <h2 className="text-sm font-medium text-gray-900">Quantità disponibile</h2>
                 <p className="mt-4 text-sm text-gray-500">{product.ProductAmount} Pz.</p>
+                  
               </div>
-
+*/}
               <div className="mt-8 border-t border-gray-200 pt-8">
                 <h2 className="text-sm font-medium text-gray-900">Dimensioni (LxHxP) e peso</h2>
                 <p className="mt-4 text-sm text-gray-500">

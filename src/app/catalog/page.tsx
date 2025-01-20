@@ -254,6 +254,7 @@ export default function StorePage() {
                         />
                         <div className="mt-4 flex justify-between">
                           <div>
+                            {/* Show discounted price if DiscountPercentage is present, otherwise show the normal price 
                             <p className="text-sm font-medium text-gray-900">
                               {product.DiscountPercentage ? (
                                 <>
@@ -275,6 +276,7 @@ export default function StorePage() {
                                 `€ ${product.UnitPrice}`
                               )}
                             </p>
+                            */}
 
                             <h3 className="text-sm text-gray-700">
                               <a href={`/products/${product.ProductId}`}>
