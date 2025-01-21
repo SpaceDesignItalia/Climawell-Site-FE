@@ -28,12 +28,15 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
         <img
           alt={'Product Image ' + product.ProductName}
-          src={`${API_IMAGE_URL}${product.FirstImage}`}
+          src={product.FirstImage.includes('https://')
+            ? product.FirstImage
+            : `${API_IMAGE_URL}${product.FirstImage}`}
           className={`h-full w-full object-cover object-center ${
             imageLoading ? 'opacity-0' : 'opacity-100'
           } transition-opacity duration-300 group-hover:opacity-75`}
           onLoad={() => setImageLoading(false)}
         />
+        
       </div>
       <div className="mt-4 flex flex-col justify-between h-24">
         <h3 className="text-sm text-gray-700">
