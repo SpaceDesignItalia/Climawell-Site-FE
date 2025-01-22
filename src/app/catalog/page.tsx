@@ -1,402 +1,248 @@
-'use client'
+"use client"
 
-import { useState, useEffect, useCallback } from 'react'
-import axios from 'axios'
-import { API_URL } from '@/API/API'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { Container } from '@/components/Container'
-import { API_IMAGE_URL } from '@/API/API'
-import {
-  ArrowLongLeftIcon,
-  ArrowLongRightIcon,
-} from '@heroicons/react/20/solid'
-import { Menu } from '@headlessui/react'
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import { API_URL } from "@/API/API"
+import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import { Transition } from "@headlessui/react"
+import { Button, CircularProgress } from "@mui/material"
+import { Filters } from "./components/Filters"
+import { ProductGrid } from "./components/ProductGrid"
+import { Pagination } from "./components/Pagination"
 
-const fetchAllProducts = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/Products/GET/GetAllProducts`)
-    return response.data
-  } catch (error) {
-    console.error('Errore nel recupero dei prodotti:', error)
-    return null
-  }
-}
-
-const fetchFeaturedProducts = async () => {
-  try {
-    const response = await axios.get(
-      `${API_URL}/Products/GET/GetFeaturedProducts`,
-    )
-    return response.data
-  } catch (error) {
-    console.error('Errore nel recupero dei prodotti in evidenza:', error)
-    return null
-  }
-}
-
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
-}
+const ITEMS_PER_PAGE = 20
 
 export default function StorePage() {
-  const [searchQuery, setSearchQuery] = useState('')
-
-  const [order, setOrder] = useState('ASC')
-  const [orderBy, setOrderBy] = useState('UnitPrice')
-
-  const orderProducts = useCallback(
-    async (order: string, orderBy: string, query: string) => {
-      try {
-        const response = await axios.get(
-          `${API_URL}/Products/GET/OrderProductsBy`,
-          {
-            params: { order: order, orderBy: orderBy, searchQuery: query },
-          },
-        )
-        setProducts(response.data)
-        return response.data
-      } catch (error) {
-        console.error('Errore nel recupero dei prodotti:', error)
-        return null
-      }
-    },
-    [],
-  )
-
-  const generatePagination = (currentPage: number, totalPages: number) => {
-    const pages = []
-    const maxPagesToShow = 7 // Numero massimo di elementi visibili (compresi numeri e ellipsis)
-    const range = 2 // Numero di pagine da mostrare intorno alla pagina corrente
-
-    if (totalPages <= maxPagesToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i)
-      }
-    } else {
-      pages.push(1) // Prima pagina
-
-      if (currentPage > range + 2) {
-        pages.push('...')
-      }
-
-      const start = Math.max(2, currentPage - range)
-      const end = Math.min(totalPages - 1, currentPage + range)
-
-      for (let i = start; i <= end; i++) {
-        pages.push(i)
-      }
-
-      if (currentPage < totalPages - range - 1) {
-        pages.push('...')
-      }
-
-      pages.push(totalPages) // Ultima pagina
-    }
-
-    return pages
-  }
-
-  const [products, setProducts] = useState([
-    {
-      ProductId: 0,
-      ProductName: '',
-      ProductModelName: '',
-      CategoryName: '',
-      UnitPrice: 0,
-      DiscountPercentage: 0,
-      FirstImage: '',
-      BrandName: '',
-    },
-  ])
-
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({
+    categories: [],
+    brands: [],
+  })
+  const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<any>(null)
-
-  const itemsPerPage = 16
-  const totalProductPages = Math.ceil(products.length / itemsPerPage)
-  const [currentProductPage, setCurrentProductPage] = useState(1)
-
-  const startProductIndex = (currentProductPage - 1) * itemsPerPage
-  const currentProducts = products.slice(
-    startProductIndex,
-    startProductIndex + itemsPerPage,
-  )
-
-  const goToProductPage = (page: any) => {
-    if (page >= 1 && page <= totalProductPages) {
-      setCurrentProductPage(page)
-    }
-  }
+  const [filterLoading, setFilterLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [filters, setFilters] = useState<any[]>([])
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const data = await fetchAllProducts()
-        const featuredData = await fetchFeaturedProducts()
-
+        const response = await axios.get(`${API_URL}/Products/GET/GetAllProducts`)
+        const data = response.data
         if (data) {
           setProducts(data)
-        } else {
-          setError('Errore nel recupero dei prodotti')
+          const categories = Array.from(new Set(data.map((p: any) => p.CategoryName))) as string[]
+          const brands = Array.from(new Set(data.map((p: any) => p.BrandName))) as string[]
+
+          setFilters([
+            {
+              id: "categories",
+              title: "Categorie",
+              options: categories.map((cat: string) => ({
+                value: cat,
+                label: cat,
+                count: data.filter((p: any) => p.CategoryName === cat).length,
+              })),
+            },
+            {
+              id: "brands",
+              title: "Marche",
+              options: brands.map((brand: string) => ({
+                value: brand,
+                label: brand,
+                count: data.filter((p: any) => p.BrandName === brand).length,
+              })),
+            },
+          ])
         }
       } catch (err) {
-        setError('Errore durante il caricamento dei dati')
+        setError("Errore durante il caricamento dei dati")
       } finally {
         setLoading(false)
       }
     }
 
     getProducts()
-    orderProducts(order, orderBy, searchQuery)
-  }, [order, orderBy, searchQuery, orderProducts])
+  }, [])
+
+  useEffect(() => {
+    setCurrentPage(1)
+    setFilterLoading(true)
+    const timer = setTimeout(() => setFilterLoading(false), 500)
+    return () => clearTimeout(timer)
+  }, [selectedFilters, searchQuery])
+
+  const handleFilterChange = (groupId: string, value: string) => {
+    setSelectedFilters((prev) => {
+      const currentFilters = prev[groupId] || []
+      const newFilters = currentFilters.includes(value)
+        ? currentFilters.filter((v) => v !== value)
+        : [...currentFilters, value]
+
+      return {
+        ...prev,
+        [groupId]: newFilters,
+      }
+    })
+  }
+
+  const clearFilters = () => {
+    setSelectedFilters({
+      categories: [],
+      brands: [],
+    })
+    setSearchQuery("")
+  }
+
+  const filteredProducts = products.filter((product: any) => {
+    const matchesSearch =
+      !searchQuery ||
+      (product.ProductName && product.ProductName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (product.ProductModelName && product.ProductModelName.toLowerCase().includes(searchQuery.toLowerCase()))
+    const matchesCategory =
+      selectedFilters.categories.length === 0 || selectedFilters.categories.includes(product.CategoryName)
+    const matchesBrand = selectedFilters.brands.length === 0 || selectedFilters.brands.includes(product.BrandName)
+
+    return matchesSearch && matchesCategory && matchesBrand
+  })
+
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
+  const paginatedProducts = filteredProducts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
 
   if (error) {
-    return <div>{error}</div>
+    return (
+      <div className="flex h-[50vh] items-center justify-center">
+        <p className="text-lg text-gray-500">{error}</p>
+      </div>
+    )
   }
 
   if (loading) {
     return (
-      <div className="flex h-full items-center justify-center">
-        <div
-          className="text-primary inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-          role="status"
-        >
-          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-            Loading...
-          </span>
-        </div>
+      <div className="flex h-[50vh] items-center justify-center">
+        <CircularProgress />
       </div>
     )
   }
 
   return (
-    <Container className="">
-      <div>
-        <main className="mx-auto max-w-7xl rounded-lg px-4 py-12 sm:px-6 lg:px-8">
-          <div className="mt-12 rounded-lg px-4 py-12 sm:px-6 lg:px-8">
-            <div>
-              <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:max-w-7xl lg:px-8">
-                <div className="py-12">
-                  <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-                    Catalogo completo
-                  </h1>
+    <div className="flex min-h-screen ">
+      {/* Mobile filter dialog */}
+      <Transition show={mobileFiltersOpen} as={React.Fragment}>
+        <div className="relative z-40 lg:hidden">
+          <Transition.Child
+            as={React.Fragment}
+            enter="transition-opacity ease-linear duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity ease-linear duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 z-40 flex">
+            <Transition.Child
+              as={React.Fragment}
+              enter="transition ease-in-out duration-300 transform"
+              enterFrom="translate-x-full"
+              enterTo="translate-x-0"
+              leave="transition ease-in-out duration-300 transform"
+              leaveFrom="translate-x-0"
+              leaveTo="translate-x-full"
+            >
+              <div className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-6 shadow-xl">
+                <div className="flex items-center justify-between px-4">
+                  <h2 className="text-lg font-medium text-gray-900">Filtri</h2>
+                  <button
+                    type="button"
+                    className="-mr-2 flex h-10 w-10 items-center justify-center p-2 text-gray-400 hover:text-gray-500"
+                    onClick={() => setMobileFiltersOpen(false)}
+                  >
+                    <span className="sr-only">Chiudi menu</span>
+                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                  </button>
                 </div>
 
-                <section
-                  aria-labelledby="filter-heading"
-                  className="border-t border-gray-200 py-6"
-                >
-                  <h2 id="filter-heading" className="sr-only">
-                    Product filters
-                  </h2>
-
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                    <div className="mb-4 sm:mb-0">
-                      <Menu
-                        as="div"
-                        className="relative inline-block text-left"
-                      >
-                        <div>
-                          <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                            Ordina per prezzo{' '}
-                            {order == 'ASC' ? 'crescente' : 'decrescente'}
-                            <ChevronDownIcon
-                              aria-hidden="true"
-                              className="pointer-events-none ml-2 size-5 self-center text-gray-500 sm:size-4"
-                            />
-                          </Menu.Button>
-                        </div>
-
-                        <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none">
-                          <div className="py-1">
-                            <Menu.Item>
-                              {({ active }) => (
-                                <a
-                                  onClick={() => {
-                                    setOrderBy('UnitPrice')
-                                    setOrder('ASC')
-                                    orderProducts('ASC', orderBy, searchQuery)
-                                  }}
-                                  className={`block px-4 py-2 text-sm font-medium ${
-                                    active
-                                      ? 'bg-gray-100 text-gray-900'
-                                      : 'text-gray-900'
-                                  }`}
-                                >
-                                  Crescente
-                                </a>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {({ active }) => (
-                                <a
-                                  onClick={() => {
-                                    setOrderBy('UnitPrice')
-                                    setOrder('DESC')
-                                    orderProducts('DESC', orderBy, searchQuery)
-                                  }}
-                                  className={`block px-4 py-2 text-sm font-medium ${
-                                    active
-                                      ? 'bg-gray-100 text-gray-900'
-                                      : 'text-gray-900'
-                                  }`}
-                                >
-                                  Decrescente
-                                </a>
-                              )}
-                            </Menu.Item>
-                          </div>
-                        </Menu.Items>
-                      </Menu>
-                    </div>
-
-                    <div className="relative w-full sm:w-1/3">
-                      <input
-                        onChange={(e) => {
-                          setSearchQuery(e.target.value)
-                          orderProducts(order, orderBy, e.target.value)
-                        }}
-                        id="name"
-                        name="name"
-                        type="name"
-                        placeholder="Cerca per nome prodotto"
-                        className="block w-full rounded-md bg-white py-1.5 pl-10 pr-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
-                      />
-                      <SearchRoundedIcon
-                        aria-hidden="true"
-                        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400"
-                      />
-                    </div>
-                  </div>
-                </section>
+                <Filters
+                  filters={filters}
+                  selectedFilters={selectedFilters}
+                  handleFilterChange={handleFilterChange}
+                  clearFilters={clearFilters}
+                />
               </div>
+            </Transition.Child>
+          </div>
+        </div>
+      </Transition>
+
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+        </div>
+
+        <div className="flex items-center justify-between py-4">
+          <div className="relative flex-grow max-w-xl mx-auto">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+            </div>
+            <input
+              type="text"
+              name="search"
+              id="search"
+              className="block w-full rounded-md border-2 border-gray-300 pl-10 pr-3 py-2 focus:border-gray-500 focus:ring-gray-500 sm:text-sm shadow-sm"
+              placeholder="Cerca prodotti"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <button
+            type="button"
+            className="inline-flex items-center lg:hidden ml-4"
+            onClick={() => setMobileFiltersOpen(true)}
+          >
+            <span className="text-sm font-medium text-gray-700">Filtri</span>
+            <Bars3Icon className="ml-1 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+          </button>
+        </div>
+
+        <section className="pb-24 pt-6">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
+            {/* Filters */}
+            <div className="hidden sm:block">
+              <Filters
+                filters={filters}
+                selectedFilters={selectedFilters}
+                handleFilterChange={handleFilterChange}
+                clearFilters={clearFilters}
+              />
             </div>
 
-            <div className="lg:col-span-3">
-              <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                {products.length === 0 ? (
-                  <div className="mt-6 text-center text-lg text-gray-500">
-                    Nessun prodotto disponibile
-                  </div>
-                ) : (
-                  <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                    {currentProducts.map((product) => (
-                      <div key={product.ProductId} className="group relative">
-                        <img
-                          alt={'Product Image ' + product.ProductName}
-                          src={
-                            product.FirstImage.includes('https://')
-                              ? product.FirstImage
-                              : `${API_IMAGE_URL}${product.FirstImage}`
-                          }
-                          className="aspect-square w-full rounded-md object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
-                        />
-                        <p className="text-semibold font-medium text-gray-800">
-                          {product.BrandName}
-                        </p>
-                        <p className="text-xs">{product.CategoryName}</p>
-                        <div className="mt-4 flex justify-between">
-                          <div>
-                            {/*  <p className="text-sm font-medium text-gray-900">
-                              {product.DiscountPercentage ? (
-                                <>
-                                  <span className="text-red-500 line-through">
-                                    € {product.UnitPrice}
-                                  </span>
-                                  <span className="ml-2 text-green-500">
-                                    €{' '}
-                                    {(
-                                      product.UnitPrice *
-                                      (1 - product.DiscountPercentage / 100)
-                                    ).toFixed(2)}
-                                  </span>
-                                  <span className="ml-2 rounded-full bg-green-500 px-2 py-1 text-xs font-semibold text-white">
-                                    - {product.DiscountPercentage}%
-                                  </span>
-                                </>
-                              ) : (
-                                `€ ${product.UnitPrice}`
-                              )}
-                            </p>
- */}
-                            <h3 className="text-sm text-gray-700">
-                              <a href={`/products/${product.ProductId}`}>
-                                <span
-                                  aria-hidden="true"
-                                  className="absolute inset-0"
-                                />
-                                <p>{product.ProductName}</p>
-                                <p>{product.ProductModelName}</p>
-                              </a>
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+            {/* Product grid */}
+            <div className="lg:col-span-4">
+              {filterLoading ? (
+                <div className="flex justify-center items-center h-96">
+                  <CircularProgress />
+                </div>
+              ) : (
+                <ProductGrid products={paginatedProducts} />
+              )}
 
-                <nav className="mt-10 flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
-                  <div className="-mt-px flex w-0 flex-1">
-                    <button
-                      onClick={() => goToProductPage(currentProductPage - 1)}
-                      disabled={currentProductPage === 1}
-                      className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:opacity-50"
-                    >
-                      <ArrowLongLeftIcon
-                        aria-hidden="true"
-                        className="mr-3 size-5 text-gray-400"
-                      />
-                      Precedente
-                    </button>
-                  </div>
-                  <div className="hidden md:-mt-px md:flex">
-                    {generatePagination(
-                      currentProductPage,
-                      totalProductPages,
-                    ).map((page, index) =>
-                      page === '...' ? (
-                        <span
-                          key={`ellipsis-${index}`}
-                          className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500"
-                        >
-                          ...
-                        </span>
-                      ) : (
-                        <button
-                          key={page}
-                          onClick={() => goToProductPage(page)}
-                          className={`inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium ${
-                            currentProductPage === page
-                              ? 'border-indigo-500 text-indigo-600'
-                              : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                          }`}
-                        >
-                          {page}
-                        </button>
-                      ),
-                    )}
-                  </div>
-                  <div className="-mt-px flex w-0 flex-1 justify-end">
-                    <button
-                      onClick={() => goToProductPage(currentProductPage + 1)}
-                      disabled={currentProductPage === totalProductPages}
-                      className="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 disabled:opacity-50"
-                    >
-                      Successiva
-                      <ArrowLongRightIcon
-                        aria-hidden="true"
-                        className="ml-3 size-5 text-gray-400"
-                      />
-                    </button>
-                  </div>
-                </nav>
-              </div>
+              {/* Pagination */}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+                itemsPerPage={ITEMS_PER_PAGE}
+                totalItems={filteredProducts.length}
+              />
             </div>
           </div>
-        </main>
-      </div>
-    </Container>
+        </section>
+      </main>
+    </div>
   )
 }
+
