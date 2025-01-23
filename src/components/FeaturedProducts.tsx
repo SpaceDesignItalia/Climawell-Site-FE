@@ -173,16 +173,7 @@ export function FeaturedProducts() {
           <div className={`flex ${isMobile ? 'flex-col' : 'items-center justify-between'}`}>
             <div className={`${isMobile ? 'mb-4' : ''}`}>
               <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    Ordina per prezzo{' '}
-                    {featuredOrder == 'ASC' ? 'crescente' : 'decrescente'}
-                    <ChevronDownIcon
-                      aria-hidden="true"
-                      className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                    />
-                  </Menu.Button>
-                </div>
+              
 
                 <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none">
                   <div className="py-1">
