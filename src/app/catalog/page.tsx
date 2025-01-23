@@ -160,7 +160,7 @@ export default function StorePage() {
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900">Store</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900">Catalogo</h1>
         </div>
 
         <div className="flex items-center justify-between py-4">
