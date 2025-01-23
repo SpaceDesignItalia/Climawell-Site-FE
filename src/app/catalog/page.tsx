@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { API_URL } from "@/API/API"
 import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { Transition } from "@headlessui/react"
+import { Dialog, Transition } from "@headlessui/react"
 import { Button, CircularProgress } from "@mui/material"
 import { Filters } from "./components/Filters"
 import { ProductGrid } from "./components/ProductGrid"
@@ -128,59 +128,39 @@ export default function StorePage() {
   }
 
   return (
-    <div className="flex min-h-screen ">
+    <div className="min-h-screen bg-white">
       {/* Mobile filter dialog */}
-      <Transition show={mobileFiltersOpen} as={React.Fragment}>
-        <div className="relative z-40 lg:hidden">
-          <Transition.Child
-            as={React.Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+      <Dialog as="div" className="relative z-40 lg:hidden" open={mobileFiltersOpen} onClose={setMobileFiltersOpen}>
+        <div className="fixed inset-0 bg-black bg-opacity-25" />
 
-          <div className="fixed inset-0 z-40 flex">
-            <Transition.Child
-              as={React.Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="translate-x-full"
-            >
-              <div className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-6 shadow-xl">
-                <div className="flex items-center justify-between px-4">
-                  <h2 className="text-lg font-medium text-gray-900">Filtri</h2>
-                  <button
-                    type="button"
-                    className="-mr-2 flex h-10 w-10 items-center justify-center p-2 text-gray-400 hover:text-gray-500"
-                    onClick={() => setMobileFiltersOpen(false)}
-                  >
-                    <span className="sr-only">Chiudi menu</span>
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
+        <div className="fixed inset-0 z-40 flex">
+          <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-6 shadow-xl">
+            <div className="flex items-center justify-between px-4">
+              <Dialog.Title className="text-lg font-medium text-gray-900">Filtri</Dialog.Title>
+              <button
+                type="button"
+                className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md p-2 text-gray-400 hover:text-gray-500"
+                onClick={() => setMobileFiltersOpen(false)}
+              >
+                <XMarkIcon className="h-6 w-6" />
+              </button>
+            </div>
 
-                <Filters
-                  filters={filters}
-                  selectedFilters={selectedFilters}
-                  handleFilterChange={handleFilterChange}
-                  clearFilters={clearFilters}
-                />
-              </div>
-            </Transition.Child>
-          </div>
+            <div className="mt-4">
+              <Filters
+                filters={filters}
+                selectedFilters={selectedFilters}
+                handleFilterChange={handleFilterChange}
+                clearFilters={clearFilters}
+              />
+            </div>
+          </Dialog.Panel>
         </div>
-      </Transition>
+      </Dialog>
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900">Store</h1>
         </div>
 
         <div className="flex items-center justify-between py-4">
@@ -192,7 +172,7 @@ export default function StorePage() {
               type="text"
               name="search"
               id="search"
-              className="block w-full rounded-md border-2 border-gray-300 pl-10 pr-3 py-2 focus:border-gray-500 focus:ring-gray-500 sm:text-sm shadow-sm"
+              className="block w-full rounded-md border-0 py-2 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
               placeholder="Cerca prodotti"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -200,18 +180,18 @@ export default function StorePage() {
           </div>
           <button
             type="button"
-            className="inline-flex items-center lg:hidden ml-4"
+            className="inline-flex items-center lg:hidden ml-4 text-sm font-medium text-gray-700"
             onClick={() => setMobileFiltersOpen(true)}
           >
-            <span className="text-sm font-medium text-gray-700">Filtri</span>
+            Filtri
             <Bars3Icon className="ml-1 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
           </button>
         </div>
 
         <section className="pb-24 pt-6">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             {/* Filters */}
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
               <Filters
                 filters={filters}
                 selectedFilters={selectedFilters}
@@ -221,7 +201,7 @@ export default function StorePage() {
             </div>
 
             {/* Product grid */}
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-3">
               {filterLoading ? (
                 <div className="flex justify-center items-center h-96">
                   <CircularProgress />
@@ -231,13 +211,15 @@ export default function StorePage() {
               )}
 
               {/* Pagination */}
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
-                itemsPerPage={ITEMS_PER_PAGE}
-                totalItems={filteredProducts.length}
-              />
+              <div className="mt-8">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  setCurrentPage={setCurrentPage}
+                  itemsPerPage={ITEMS_PER_PAGE}
+                  totalItems={filteredProducts.length}
+                />
+              </div>
             </div>
           </div>
         </section>
