@@ -86,7 +86,7 @@ export default function ProductPage() {
                   </h1>
                 </div>
               </div>
-              <p className="my-auto text-xl font-medium text-gray-900">
+              {/* <p className="my-auto text-xl font-medium text-gray-900">
                 {product.DiscountPercentage ? (
                   <>
                     <span className="text-red-500 line-through">
@@ -106,7 +106,7 @@ export default function ProductPage() {
                 ) : (
                   `€ ${product.UnitPrice}`
                 )}
-              </p>
+              </p> */}
             </div>
 
             <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
@@ -116,7 +116,11 @@ export default function ProductPage() {
                 product.images.length === 1 ? (
                   <img
                     alt={product.images[0].ProductImageAlt || 'Product Image'}
-                    src={`${API_IMAGE_URL}${product.images[0].ProductImageUrl}`}
+                    src={
+                      product.images[0].ProductImageUrl.includes('https://')
+                        ? product.images[0].ProductImageUrl
+                        : `${API_IMAGE_URL}${product.images[0].ProductImageUrl}`
+                    }
                     className="w-full rounded-lg"
                   />
                 ) : (
@@ -153,7 +157,7 @@ export default function ProductPage() {
                 }}
                 className="mt-4 space-y-4 text-sm/6 text-gray-500"
               />
-              <div className="mt-8 border-t border-gray-200 pt-8">
+              {/* <div className="mt-8 border-t border-gray-200 pt-8">
                 <h2 className="text-sm font-medium text-gray-900">
                   Quantità disponibile
                 </h2>
@@ -161,8 +165,8 @@ export default function ProductPage() {
                   {product.ProductAmount} Pz.
                 </p>
               </div>
-
-              <div className="mt-8 border-t border-gray-200 pt-8">
+ */}
+              {/* <div className="mt-8 border-t border-gray-200 pt-8">
                 <h2 className="text-sm font-medium text-gray-900">
                   Dimensioni (LxHxP) e peso
                 </h2>
@@ -172,7 +176,7 @@ export default function ProductPage() {
                 <p className="mt-4 text-sm text-gray-500">
                   {product.Weight} Kg
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </main>

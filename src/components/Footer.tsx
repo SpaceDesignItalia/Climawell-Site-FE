@@ -16,8 +16,11 @@ const navigation = [
         title: 'Hermann Saunier Duval',
         href: 'https://www.hermann-saunierduval.it',
       },
-      { title: 'Scavolini', href: 'https://www.scavolini.com' },
+      { title: 'Icma', href: 'https://www.icmaspa.it' },
       { title: 'Aerauliqa', href: 'https://www.aerauliqa.it' },
+      { title: 'Scavolini', href: 'https://www.scavolini.com' },
+
+      
     ],
   },
   {
@@ -28,6 +31,8 @@ const navigation = [
       { title: 'Chi siamo', href: '/about' },
       { title: 'Blog', href: '/blog' },
       { title: 'Contattaci', href: '/contact' },
+      { title: 'Privacy', href: '/privacy' },
+
     ],
   },
   {
