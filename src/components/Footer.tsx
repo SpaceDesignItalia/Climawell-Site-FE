@@ -31,6 +31,8 @@ const navigation = [
       { title: 'Chi siamo', href: '/about' },
       { title: 'Blog', href: '/blog' },
       { title: 'Contattaci', href: '/contact' },
+      { title: 'Privacy', href: '/privacy' },
+
     ],
   },
   {
