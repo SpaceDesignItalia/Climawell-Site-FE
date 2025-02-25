@@ -16,8 +16,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const [imageLoading, setImageLoading] = useState(true)
-
   return (
     <div className="group relative h-full">
       <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200">
@@ -31,10 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
           src={product.FirstImage.includes('https://')
             ? product.FirstImage
             : `${API_IMAGE_URL}${product.FirstImage}`}
-          className={`h-full w-full object-cover object-center ${
-            imageLoading ? 'opacity-0' : 'opacity-100'
-          } transition-opacity duration-300 group-hover:opacity-75`}
-          onLoad={() => setImageLoading(false)}
+          className={`h-full w-full object-cover object-center transition-opacity duration-300`}
         />
         
       </div>
