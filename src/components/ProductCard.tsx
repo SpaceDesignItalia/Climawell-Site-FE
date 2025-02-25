@@ -19,11 +19,6 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="group relative h-full">
       <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200">
-        {imageLoading && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        )}
         <img
           alt={'Product Image ' + product.ProductName}
           src={product.FirstImage.includes('https://')
