@@ -55,7 +55,7 @@ function RadioInput({
 function ContactForm() {
   return (
     <FadeIn className="lg:order-last">
-      <form>
+      <form action="https://formspree.io/f/mnjgelqb" method="POST">
         <h2 className="font-display text-base font-semibold text-neutral-950">
           Scrivici
         </h2>
