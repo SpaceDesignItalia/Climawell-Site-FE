@@ -40,15 +40,6 @@ export function Offices({
       </Office>
     </a>
   </li>
-  <li>
-    <a href="https://www.google.it/maps/place/Essecasa+-+Arredo+Casa/@43.7683971,11.222049,149m/data=!3m1!1e3!4m6!3m5!1s0x132a5133a0a50577:0x9312f005fc337a0e!8m2!3d43.7685141!4d11.2223223!16s%2Fg%2F11f2wcwpnm?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">
-      <Office name="Essecasa" invert={invert}>
-        Via di Soffiano, 86/D
-        <br />
-        50143, Firenze
-      </Office>
-    </a>
-  </li>
 </ul>
 
 

@@ -6,10 +6,8 @@ import { FadeIn } from '@/components/FadeIn'
 import { List, ListItem } from '@/components/List'
 import { SectionIntro } from '@/components/SectionIntro'
 import { StylizedImage } from '@/components/StylizedImage'
-import { Testimonial } from '@/components/Testimonial'
 import logoAerauliqaLight from '@/images/clients/aerauliqa/AerauliqaW.png'
 import logoHermanLight from '@/images/clients/herman/HermanW.png'
-import logoessecasa from '@/images/essecasa/essecasa.png'
 import imageMagazzino from '@/images/magazzino.jpg'
 import { FeaturedProducts } from '@/components/FeaturedProducts'
 
@@ -126,16 +124,6 @@ export default async function Home() {
       <Clients />
 
       <FeaturedProducts />
-
-      <Testimonial
-        className="mt-24 sm:mt-32 lg:mt-40"
-        client={{ name: 'Essecasa', logo: logoessecasa }}
-      >
-        Essecasa, fondata nel 2016 e parte del gruppo Climawell, è il punto di
-        riferimento per soluzioni innovative nel settore dell'arredamento.
-        Visita il nostro showroom per scoprire prodotti di alta qualità per la
-        tua casa.
-      </Testimonial>
 
       <Services />
 

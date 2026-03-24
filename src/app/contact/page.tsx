@@ -92,7 +92,7 @@ function ContactDetails() {
   return (
     <FadeIn>
       <h2 className="font-display text-base font-semibold text-neutral-950">
-        Le nostre sedi
+        La nostra sede
       </h2>
       <p className="mt-6 text-base text-neutral-600">
         Preferisci fare le cose di persona? <br /> Noi pure!
@@ -107,7 +107,6 @@ function ContactDetails() {
         <dl className="mt-6 grid grid-cols-1 gap-8 text-sm sm:grid-cols-2">
           {[
             ['Climawell', 'info@climawell.it', '340 814 2732'],
-            ['Essecasa', 'info@essecasa.it', '388 129 9371'],
           ].map(([label, email, number]) => (
             <div key={email}>
               <dt className="font-semibold text-neutral-950">{label}</dt>

@@ -8,6 +8,10 @@ import { Logo } from '@/components/Logo'
 import { socialMediaProfiles } from '@/components/SocialMedia'
 import { API_URL } from '@/API/API'
 
+const footerSocialMediaProfiles = socialMediaProfiles.filter(
+  (profile) => !['Facebook', 'Instagram'].includes(profile.title),
+)
+
 const navigation = [
   {
     title: 'Marche',
@@ -32,7 +36,7 @@ const navigation = [
   },
   {
     title: 'Seguici',
-    links: socialMediaProfiles,
+    links: footerSocialMediaProfiles,
   },
 ]
 
