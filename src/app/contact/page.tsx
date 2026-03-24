@@ -110,7 +110,7 @@ function ContactDetails() {
             ['Essecasa', 'info@essecasa.it', '388 129 9371'],
           ].map(([label, email, number]) => (
             <div key={email}>
-              <dd className="font-semibold text-neutral-950">{label}</dd>
+              <dt className="font-semibold text-neutral-950">{label}</dt>
               <dd>
                 <Link
                   href={`mailto:${email}`}
@@ -118,10 +118,9 @@ function ContactDetails() {
                 >
                   {email}
                 </Link>
-
-                <dt className="text-neutral-600 hover:text-neutral-950">
-                  {number}
-                </dt>
+              </dd>
+              <dd className="mt-2 text-neutral-600 hover:text-neutral-950">
+                {number}
               </dd>
             </div>
           ))}

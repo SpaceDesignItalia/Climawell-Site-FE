@@ -16,7 +16,6 @@ const navigation = [
         title: 'Hermann Saunier Duval',
         href: 'https://www.hermann-saunierduval.it',
       },
-      { title: 'Scavolini', href: 'https://www.scavolini.com' },
       { title: 'Aerauliqa', href: 'https://www.aerauliqa.it' },
     ],
   },
@@ -28,6 +27,8 @@ const navigation = [
       { title: 'Chi siamo', href: '/about' },
       { title: 'Blog', href: '/blog' },
       { title: 'Contattaci', href: '/contact' },
+      { title: 'Privacy', href: '/privacy' },
+
     ],
   },
   {

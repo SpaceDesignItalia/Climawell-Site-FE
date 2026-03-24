@@ -9,8 +9,6 @@ import { StylizedImage } from '@/components/StylizedImage'
 import { Testimonial } from '@/components/Testimonial'
 import logoAerauliqaLight from '@/images/clients/aerauliqa/AerauliqaW.png'
 import logoHermanLight from '@/images/clients/herman/HermanW.png'
-import logoScavolini from '@/images/clients/scavolini/scavolini.png'
-import logoVaillant from '@/images/clients/vaillant/vaillant.png'
 import logoessecasa from '@/images/essecasa/essecasa.png'
 import imageMagazzino from '@/images/magazzino.jpg'
 import { FeaturedProducts } from '@/components/FeaturedProducts'
@@ -18,8 +16,6 @@ import { FeaturedProducts } from '@/components/FeaturedProducts'
 const clients = [
   ['Herman', logoHermanLight],
   ['Aerauliqa', logoAerauliqaLight],
-  ['Scavolini', logoScavolini],
-  ['Vaillant', logoVaillant],
 ]
 function Clients() {
   return (
